@@ -9,7 +9,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Menu, MoveRight, X } from "lucide-react";
+import { Box, Check, ChevronRight, Menu, MoveRight, X } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -51,9 +51,9 @@ export const Navbar5 = () => {
 
   const [isOpen, setOpen] = useState(false);
   return (
-    <header className="w-full z-40 sticky top-0 left-0 bg-background border-b-2 border-black">
-      <div className="container relative mx-auto min-h-20 flex gap-4 flex-row lg:grid lg:grid-cols-2 items-center">
-        <div className="justify-start items-center gap-4 lg:flex hidden flex-row">
+    <header className="w-full z-40 sticky top-0 left-0 bg-background border-b border-primary">
+      <div className="relative mx-10 min-h-20 flex gap-4 flex-row lg:grid lg:grid-cols-2 items-center">
+        <div className="justify-start items-center gap-4 lg:flex flex-row">
           <div className="flex">
             <p className="font-semibold">Logo</p>
           </div>
@@ -69,7 +69,10 @@ export const Navbar5 = () => {
                     </>
                   ) : (
                     <>
-                      <NavigationMenuTrigger className="font-medium text-sm">
+                      <NavigationMenuTrigger
+                        className="font-medium text-sm"
+                        onClick={() => setOpen(!isOpen)}
+                      >
                         {item.title}
                       </NavigationMenuTrigger>
                     </>
@@ -79,7 +82,7 @@ export const Navbar5 = () => {
             </NavigationMenuList>
           </NavigationMenu>
         </div>
-        <div className="flex justify-end w-full gap-2">
+        <div className="lg:flex hidden justify-end w-full gap-2">
           <Button
             variant="outline"
             className="rounded-none border-2 border-black"
@@ -88,48 +91,144 @@ export const Navbar5 = () => {
           </Button>
           <Button className="rounded-none">Button</Button>
         </div>
-        <div className="flex w-12 shrink lg:hidden items-end justify-end">
-          <Button variant="ghost" onClick={() => setOpen(!isOpen)}>
-            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </Button>
-          {isOpen && (
-            <div className="absolute top-20 border-t flex flex-col w-full right-0 bg-background shadow-lg py-4 container gap-8">
-              {navigationItems.map((item) => (
-                <div key={item.title}>
-                  <div className="flex flex-col gap-2">
-                    {item.href ? (
-                      <Link
-                        href={item.href}
-                        className="flex justify-between items-center"
-                        onClick={() => setOpen(false)}
-                      >
-                        <span className="text-lg">{item.title}</span>
-                        <MoveRight className="w-4 h-4 stroke-1 text-muted-foreground" />
-                      </Link>
-                    ) : (
-                      <p className="text-lg">{item.title}</p>
-                    )}
-                    {item.items &&
-                      item.items.map((subItem) => (
-                        <Link
-                          key={subItem.title}
-                          href={subItem.href}
-                          className="flex justify-between items-center"
-                          onClick={() => setOpen(false)}
-                        >
-                          <span className="text-muted-foreground">
-                            {subItem.title}
-                          </span>
-                          <MoveRight className="w-4 h-4 stroke-1" />
-                        </Link>
-                      ))}
+      </div>
+      {isOpen && (
+        <div className="absolute border-y border-primary flex flex-col w-full right-0 bg-background px-20 py-20 gap-8">
+          <div className="flex flex-col items-start">
+            <div className="flex flex-col gap-10 w-full">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div className="flex flex-col gap-1 w-full items-start">
+                  <div className="flex flex-col gap-1 pb-8">
+                    <p>Page group one</p>
+                  </div>
+                  <div className="flex flex-row gap-6 w-full items-start pb-8">
+                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <div className="flex flex-col gap-1">
+                      <p>Page One</p>
+                      <p className="text-muted-foreground text-sm">
+                        Lorem ipsum dolor sit amet consectetur elit
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row gap-6 w-full items-start pb-8">
+                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <div className="flex flex-col gap-1">
+                      <p>Page Two</p>
+                      <p className="text-muted-foreground text-sm">
+                        Lorem ipsum dolor sit amet consectetur elit
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row gap-6 w-full items-start pb-8">
+                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <div className="flex flex-col gap-1">
+                      <p>Page Three</p>
+                      <p className="text-muted-foreground text-sm">
+                        Lorem ipsum dolor sit amet consectetur elit
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row gap-6 w-full items-start pb-8">
+                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <div className="flex flex-col gap-1">
+                      <p>Page Four</p>
+                      <p className="text-muted-foreground text-sm">
+                        Lorem ipsum dolor sit amet consectetur elit
+                      </p>
+                    </div>
                   </div>
                 </div>
-              ))}
+
+                <div className="flex flex-col gap-1 w-full items-start">
+                  <div className="flex flex-col gap-1 pb-8">
+                    <p>Page group two</p>
+                  </div>
+                  <div className="flex flex-row gap-6 w-full items-start pb-8">
+                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <div className="flex flex-col gap-1">
+                      <p>Page Five</p>
+                      <p className="text-muted-foreground text-sm">
+                        Lorem ipsum dolor sit amet consectetur elit
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row gap-6 w-full items-start pb-8">
+                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <div className="flex flex-col gap-1">
+                      <p>Page Six</p>
+                      <p className="text-muted-foreground text-sm">
+                        Lorem ipsum dolor sit amet consectetur elit
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row gap-6 w-full items-start pb-8">
+                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <div className="flex flex-col gap-1">
+                      <p>Page Seven</p>
+                      <p className="text-muted-foreground text-sm">
+                        Lorem ipsum dolor sit amet consectetur elit
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row gap-6 w-full items-start pb-8">
+                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <div className="flex flex-col gap-1">
+                      <p>Page Eight</p>
+                      <p className="text-muted-foreground text-sm">
+                        Lorem ipsum dolor sit amet consectetur elit
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1 w-full items-start md:col-span-2 lg:col-span-1">
+                  <div className="flex flex-col gap-1 pb-8">
+                    <p>Featured from blog</p>
+                  </div>
+                  <div className="flex flex-row gap-6 w-full items-start pb-2">
+                    <div className="bg-primary rounded-md w-full aspect-video h-full flex-1"></div>
+                    <div className="flex gap-4 pl-0 flex-col flex-1">
+                      <div className="flex gap-2 flex-col">
+                        <h2 className="leading-relaxed tracking-tighter lg:max-w-xl font-regular text-left">
+                          Article Title
+                        </h2>
+                        <p className="tracking-tight text-muted-foreground text-left">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit
+                        </p>
+                        <Link className="underline" href={"/read-more"}>
+                          Read more
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-row gap-6 w-full items-start pb-2">
+                    <div className="bg-primary rounded-md w-full aspect-video h-full flex-1"></div>
+                    <div className="flex gap-4 pl-0 flex-col flex-1">
+                      <div className="flex gap-2 flex-col">
+                        <h2 className="leading-relaxed tracking-tighter lg:max-w-xl font-regular text-left">
+                          Article Title
+                        </h2>
+                        <p className="tracking-tight text-muted-foreground text-left">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit
+                        </p>
+                        <Link className="underline" href={"/read-more"}>
+                          Read more
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-row gap-6 w-full items-start">
+                    <Link href={"/articles"}>See all articles</Link>
+                    <ChevronRight />
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };

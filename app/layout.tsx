@@ -8,11 +8,14 @@ import { ModeToggle } from "@/components/ui/mode-toggle";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TWBlocks",
+  title: "Firestar",
   description: "Free SaaS website blocks based on React with shadcn & Tailwind",
   keywords:
     "tailwindcss, react, shadcn, design, webdesign, website, saas templates, saas website templates",
-  authors: [{ name: "Tommy Jepsen", url: "https://tommyjepsen.com" }],
+  authors: [
+    { name: "Abdullah Momoh", url: "https://tommyjepsen.com" },
+    { name: "Tommy Jepsen", url: "https://tommyjepsen.com" },
+  ],
 };
 
 export default function RootLayout({
@@ -25,7 +28,7 @@ export default function RootLayout({
       <head>
         <meta
           property="og:title"
-          content="TWBlocks - Free SaaS website blocks"
+          content="Firestar - Free SaaS website blocks"
         />
         <meta
           property="og:description"
