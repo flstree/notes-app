@@ -8,7 +8,7 @@ import { ModeToggle } from "@/components/ui/mode-toggle";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Firestar",
+  title: "Firestrap",
   description: "Free SaaS website blocks based on React with shadcn & Tailwind",
   keywords:
     "tailwindcss, react, shadcn, design, webdesign, website, saas templates, saas website templates",
@@ -28,7 +28,7 @@ export default function RootLayout({
       <head>
         <meta
           property="og:title"
-          content="Firestar - Free SaaS website blocks"
+          content="Firestrap - Free SaaS website blocks"
         />
         <meta
           property="og:description"
