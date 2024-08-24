@@ -1,4 +1,4 @@
-# TWBlocks
+# Firestrap
 
 Free open-source website blocks you can easily copy & paste into your react projects.
 

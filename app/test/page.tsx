@@ -1,11 +1,11 @@
 "use client";
 
-import { Navbar5 } from "@/blocks/navbar/navbar5";
+import { Navbar7 } from "@/blocks/navbar/navbar7";
 
 export default function Test() {
   return (
     <>
-      <Navbar5 />
+      <Navbar7 />
     </>
   );
 }
