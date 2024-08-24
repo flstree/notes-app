@@ -3,13 +3,12 @@
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Box, Check, ChevronRight, Menu, MoveRight, X } from "lucide-react";
+import { Box, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -52,37 +51,40 @@ export const Navbar5 = () => {
   const [isOpen, setOpen] = useState(false);
   return (
     <header className="w-full z-40 sticky top-0 left-0 bg-background border-b border-primary">
-      <div className="relative mx-10 min-h-20 flex gap-4 flex-row lg:grid lg:grid-cols-2 items-center">
-        <div className="justify-start items-center gap-4 lg:flex flex-row">
-          <div className="flex">
+      <div className="relative mx-10 min-h-20 flex flex-col gap-4 lg:flex-row lg:items-center">
+        {/* Logo Section */}
+        <div className="flex justify-center lg:justify-start items-center gap-4">
+          <div className="flex pl-4 lg:pl-0">
             <p className="font-semibold">Logo</p>
           </div>
-          <NavigationMenu className="flex justify-start items-center">
-            <NavigationMenuList className="flex justify-start gap-4 flex-row">
+        </div>
+
+        {/* Navigation Menu Section */}
+        <div className="flex flex-col lg:flex-row lg:items-center lg:gap-4">
+          <NavigationMenu className="flex justify-center lg:justify-start items-center">
+            <NavigationMenuList className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:flex lg:flex-row gap-4">
               {navigationItems.map((item) => (
                 <NavigationMenuItem key={item.title}>
                   {item.href ? (
-                    <>
-                      <NavigationMenuLink>
-                        <Button variant="ghost">{item.title}</Button>
-                      </NavigationMenuLink>
-                    </>
+                    <NavigationMenuLink>
+                      <Button variant="ghost">{item.title}</Button>
+                    </NavigationMenuLink>
                   ) : (
-                    <>
-                      <NavigationMenuTrigger
-                        className="font-medium text-sm"
-                        onClick={() => setOpen(!isOpen)}
-                      >
-                        {item.title}
-                      </NavigationMenuTrigger>
-                    </>
+                    <NavigationMenuTrigger
+                      className="font-medium text-sm"
+                      onClick={() => setOpen(!isOpen)}
+                    >
+                      {item.title}
+                    </NavigationMenuTrigger>
                   )}
                 </NavigationMenuItem>
               ))}
             </NavigationMenuList>
           </NavigationMenu>
         </div>
-        <div className="lg:flex hidden justify-end w-full gap-2">
+
+        {/* Button Section */}
+        <div className="flex justify-center lg:justify-end w-full gap-2">
           <Button
             variant="outline"
             className="rounded-none border-2 border-black"
@@ -93,7 +95,7 @@ export const Navbar5 = () => {
         </div>
       </div>
       {isOpen && (
-        <div className="absolute border-y border-primary flex flex-col w-full right-0 bg-background px-20 py-20 gap-8">
+        <div className="absolute border-y border-primary flex flex-col w-full right-0 bg-background px-10 py-20 gap-8">
           <div className="flex flex-col items-start">
             <div className="flex flex-col gap-10 w-full">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -102,7 +104,7 @@ export const Navbar5 = () => {
                     <p>Page group one</p>
                   </div>
                   <div className="flex flex-row gap-6 w-full items-start pb-8">
-                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <Box className="mt-2 text-primary" />
                     <div className="flex flex-col gap-1">
                       <p>Page One</p>
                       <p className="text-muted-foreground text-sm">
@@ -111,7 +113,7 @@ export const Navbar5 = () => {
                     </div>
                   </div>
                   <div className="flex flex-row gap-6 w-full items-start pb-8">
-                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <Box className="mt-2 text-primary" />
                     <div className="flex flex-col gap-1">
                       <p>Page Two</p>
                       <p className="text-muted-foreground text-sm">
@@ -120,7 +122,7 @@ export const Navbar5 = () => {
                     </div>
                   </div>
                   <div className="flex flex-row gap-6 w-full items-start pb-8">
-                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <Box className="mt-2 text-primary" />
                     <div className="flex flex-col gap-1">
                       <p>Page Three</p>
                       <p className="text-muted-foreground text-sm">
@@ -129,7 +131,7 @@ export const Navbar5 = () => {
                     </div>
                   </div>
                   <div className="flex flex-row gap-6 w-full items-start pb-8">
-                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <Box className="mt-2 text-primary" />
                     <div className="flex flex-col gap-1">
                       <p>Page Four</p>
                       <p className="text-muted-foreground text-sm">
@@ -144,7 +146,7 @@ export const Navbar5 = () => {
                     <p>Page group two</p>
                   </div>
                   <div className="flex flex-row gap-6 w-full items-start pb-8">
-                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <Box className="mt-2 text-primary" />
                     <div className="flex flex-col gap-1">
                       <p>Page Five</p>
                       <p className="text-muted-foreground text-sm">
@@ -153,7 +155,7 @@ export const Navbar5 = () => {
                     </div>
                   </div>
                   <div className="flex flex-row gap-6 w-full items-start pb-8">
-                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <Box className="mt-2 text-primary" />
                     <div className="flex flex-col gap-1">
                       <p>Page Six</p>
                       <p className="text-muted-foreground text-sm">
@@ -162,7 +164,7 @@ export const Navbar5 = () => {
                     </div>
                   </div>
                   <div className="flex flex-row gap-6 w-full items-start pb-8">
-                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <Box className="mt-2 text-primary" />
                     <div className="flex flex-col gap-1">
                       <p>Page Seven</p>
                       <p className="text-muted-foreground text-sm">
@@ -171,7 +173,7 @@ export const Navbar5 = () => {
                     </div>
                   </div>
                   <div className="flex flex-row gap-6 w-full items-start pb-8">
-                    <Box className="w-4 h-4 mt-2 text-primary" />
+                    <Box className="mt-2 text-primary" />
                     <div className="flex flex-col gap-1">
                       <p>Page Eight</p>
                       <p className="text-muted-foreground text-sm">
