@@ -8,11 +8,10 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Box, ChevronRight } from "lucide-react";
 import { useState } from "react";
-import Link from "next/link";
+import { Box } from "lucide-react";
 
-export const Navbar7 = () => {
+export const Navbar8 = () => {
   const navigationItems = [
     {
       title: "Link One",
@@ -96,7 +95,7 @@ export const Navbar7 = () => {
       </div>
       {isOpen && (
         <div className="absolute border-y border-primary flex flex-col w-full right-0 bg-background px-10 pt-20 gap-8">
-          <div className="flex flex-col items-start">
+          <div className="flex flex-col items-start overflow-auto">
             <div className="flex flex-col gap-10 w-full">
               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10">
                 <div className="flex flex-col gap-1 w-full items-start">
@@ -226,64 +225,33 @@ export const Navbar7 = () => {
                 </div>
 
                 <div className="flex flex-col gap-1 w-full items-start">
-                  <div className="flex flex-col gap-1 pb-8">
+                  <div className="flex flex-col gap-1 pb-2">
                     <p>Page group four</p>
                   </div>
-                  <div className="flex flex-row gap-6 w-full items-start pb-8">
-                    <Box className="mt-2 text-primary" />
+                  <div className="flex flex-row gap-6 w-full items-start pb-2">
                     <div className="flex flex-col gap-1">
-                      <p>Page Thirteen</p>
-                      <p className="text-muted-foreground text-sm">
-                        Lorem ipsum dolor sit amet consectetur elit
-                      </p>
+                      <p className="text-muted-foreground">Link one</p>
                     </div>
                   </div>
-                  <div className="flex flex-row gap-6 w-full items-start pb-8">
-                    <Box className="mt-2 text-primary" />
+                  <div className="flex flex-row gap-6 w-full items-start pb-2">
                     <div className="flex flex-col gap-1">
-                      <p>Page Fourteen</p>
-                      <p className="text-muted-foreground text-sm">
-                        Lorem ipsum dolor sit amet consectetur elit
-                      </p>
+                      <p className="text-muted-foreground">Link two</p>
                     </div>
                   </div>
-                  <div className="flex flex-row gap-6 w-full items-start pb-8">
-                    <Box className="mt-2 text-primary" />
+                  <div className="flex flex-row gap-6 w-full items-start pb-2">
                     <div className="flex flex-col gap-1">
-                      <p>Page Fifteen</p>
-                      <p className="text-muted-foreground text-sm">
-                        Lorem ipsum dolor sit amet consectetur elit
-                      </p>
+                      <p className="text-muted-foreground">Link three</p>
                     </div>
                   </div>
-                  <div className="flex flex-row gap-6 w-full items-start pb-8">
-                    <Box className="mt-2 text-primary" />
+                  <div className="flex flex-row gap-6 w-full items-start pb-2">
                     <div className="flex flex-col gap-1">
-                      <p>Page Sixteen</p>
-                      <p className="text-muted-foreground text-sm">
-                        Lorem ipsum dolor sit amet consectetur elit
-                      </p>
+                      <p className="text-muted-foreground">Link four</p>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="flex justify-between pb-4">
-                <div className="flex gap-2">
-                  <p>Ready to get started?</p>{" "}
-                  <span className="underline">Sign up for free</span>
-                </div>
-                <div className="flex gap-4">
-                  <div className="flex">
-                    <Box className="mt-2 text-primary" />
-                    <Button variant="outline" className="rounded-none border-0">
-                      Button
-                    </Button>
-                  </div>
-                  <div className="flex">
-                    <Box className="mt-2 text-primary" />
-                    <Button variant="outline" className="rounded-none border-0">
-                      Button
-                    </Button>
+                  <div className="flex flex-row gap-6 w-full items-start pb-2">
+                    <div className="flex flex-col gap-1">
+                      <p className="text-muted-foreground">Link five</p>
+                    </div>
                   </div>
                 </div>
               </div>
