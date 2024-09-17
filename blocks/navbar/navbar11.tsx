@@ -3,15 +3,13 @@
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Box, Menu, MoveRight, X } from "lucide-react";
+import { Box, Menu, X } from "lucide-react";
 import { useState } from "react";
-import Link from "next/link";
 
 export const Navbar11 = () => {
   const navigationItems = [
@@ -80,48 +78,6 @@ export const Navbar11 = () => {
                       <NavigationMenuTrigger className="font-medium text-sm">
                         {item.title}
                       </NavigationMenuTrigger>
-                      <NavigationMenuContent className="!w-[450px] !p-10 !shadow-none !rounded-none !border !border-primary !border-solid">
-                        <div className="flex flex-col lg:grid grid-cols-1 gap-4">
-                          <div className="flex flex-col gap-1 w-full items-start">
-                            <div className="flex flex-row gap-6 w-full items-start pb-2">
-                              <Box className="mt-2 !text-primary" />
-                              <div className="flex flex-col gap-1">
-                                <p>Page One</p>
-                                <p className="text-muted-foreground text-sm">
-                                  Lorem ipsum dolor sit amet consectetur elit
-                                </p>
-                              </div>
-                            </div>
-                            <div className="flex flex-row gap-6 w-full items-start pb-2">
-                              <Box className="mt-2 !text-primary" />
-                              <div className="flex flex-col gap-1">
-                                <p>Page Two</p>
-                                <p className="text-muted-foreground text-sm">
-                                  Lorem ipsum dolor sit amet consectetur elit
-                                </p>
-                              </div>
-                            </div>
-                            <div className="flex flex-row gap-6 w-full items-start pb-2">
-                              <Box className="mt-2 !text-primary" />
-                              <div className="flex flex-col gap-1">
-                                <p>Page Three</p>
-                                <p className="text-muted-foreground text-sm">
-                                  Lorem ipsum dolor sit amet consectetur elit
-                                </p>
-                              </div>
-                            </div>
-                            <div className="flex flex-row gap-6 w-full items-start">
-                              <Box className="mt-2 !text-primary" />
-                              <div className="flex flex-col gap-1">
-                                <p>Page Four</p>
-                                <p className="text-muted-foreground text-sm">
-                                  Lorem ipsum dolor sit amet consectetur elit
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </NavigationMenuContent>
                     </>
                   )}
                 </NavigationMenuItem>
@@ -138,42 +94,6 @@ export const Navbar11 = () => {
           <Button variant="ghost" onClick={() => setOpen(!isOpen)}>
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </Button>
-          {/* {isOpen && (
-            <div className="absolute top-20 border-t flex flex-col w-full right-0 bg-background shadow-lg py-4 container gap-8">
-              {navigationItems.map((item) => (
-                <div key={item.title}>
-                  <div className="flex flex-col gap-2">
-                    {item.href ? (
-                      <Link
-                        href={item.href}
-                        className="flex justify-between items-center"
-                        onClick={() => setOpen(false)}
-                      >
-                        <span className="text-lg">{item.title}</span>
-                        <MoveRight className="w-4 h-4 stroke-1 text-muted-foreground" />
-                      </Link>
-                    ) : (
-                      <p className="text-lg">{item.title}</p>
-                    )}
-                    {item.items &&
-                      item.items.map((subItem) => (
-                        <Link
-                          key={subItem.title}
-                          href={subItem.href}
-                          className="flex justify-between items-center"
-                          onClick={() => setOpen(false)}
-                        >
-                          <span className="text-muted-foreground">
-                            {subItem.title}
-                          </span>
-                          <MoveRight className="w-4 h-4 stroke-1" />
-                        </Link>
-                      ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )} */}
         </div>
       </div>
     </header>

@@ -58,7 +58,7 @@ export const Navbar1 = () => {
   return (
     <header className="w-full z-40 sticky top-0 left-0 bg-background border-0 border-b-2 border-black">
       <div className="container relative mx-auto min-h-20 flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center">
-        <div className="flex justify-start lg:justify-start">
+        <div className="flex justify-start">
           <p className="font-bold">Logo</p>
         </div>
         <div className="justify-end items-center gap-4 lg:flex hidden flex-row"></div>

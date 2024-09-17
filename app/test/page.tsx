@@ -1,12 +1,12 @@
 "use client";
 
 import { Hero1 } from "@/blocks/hero/hero1";
-import { Navbar16 } from "@/blocks/navbar/navbar16";
+import { Navbar11 } from "@/blocks/navbar/navbar11";
 
 export default function Test() {
   return (
     <>
-      <Navbar16 />
+      <Navbar11 />
       <Hero1 />
     </>
   );
