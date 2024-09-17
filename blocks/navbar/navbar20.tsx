@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 import Link from "next/link";
 
-export const Navbar16 = () => {
+export const Navbar20 = () => {
   const navigationItems = [
     {
       title: "Line One",
@@ -67,31 +67,11 @@ export const Navbar16 = () => {
       {isOpen && (
         <div className="absolute flex flex-col w-full h-svh right-0 bg-background px-10 gap-8">
           <div className="flex flex-col h-full">
-            <div className="flex flex-col gap-1 w-full h-3/4 place-content-center">
-              {navigationItems?.length &&
-                navigationItems.map((navItem, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="flex flex-row gap-6 w-full justify-center pb-8"
-                    >
-                      <div className="flex flex-col gap-1 capitalize text-2xl">
-                        <Link href={navItem.href}>{navItem.title}</Link>
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
-            <div className="flex justify-between pb-4">
-              <div className="flex gap-2">
-                <p>Contact</p>
-              </div>
-              <div className="flex gap-2">
-                <FacebookIcon className="mt-2 text-primary" />
-                <InstagramIcon className="mt-2 text-primary" />
-                <TwitterIcon className="mt-2 text-primary" />
-                <LinkedinIcon className="mt-2 text-primary" />
-                <YoutubeIcon className="mt-2 text-primary" />
+            <div className="flex flex-col gap-1 w-full h-3/4">
+              <div className="flex flex-row gap-6 w-full justify-center pb-8">
+                <div className="flex flex-col gap-1 capitalize text-2xl">
+                  <Link href={"/"}>Link One</Link>
+                </div>
               </div>
             </div>
           </div>
