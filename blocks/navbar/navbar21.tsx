@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import {
+  ChevronRight,
   FacebookIcon,
   InstagramIcon,
   LinkedinIcon,
@@ -14,7 +15,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 
-export const Navbar20 = () => {
+export const Navbar21 = () => {
   const navigationItems = [
     {
       title: "Line One",
@@ -65,10 +66,10 @@ export const Navbar20 = () => {
         </div>
       </div>
       {isOpen && (
-        <div className="absolute flex flex-col w-full h-svh right-0 bg-background px-10 gap-8">
+        <div className="absolute top-20 left-0 flex flex-col w-full h-svh bg-background px-10 gap-8">
           <div className="flex flex-col h-full">
             <div className="flex flex-col lg:flex-row justify-between items-center gap-1 w-full h-3/4 overflow-auto">
-              <div className="flex flex-col place-content-center grow-0">
+              <div className="flex flex-col place-content-center">
                 <div className="flex flex-row gap-6 w-full justify-start pb-8">
                   <div className="flex flex-col gap-1 capitalize text-2xl">
                     <Link href={"/"}>Link One</Link>
@@ -95,7 +96,7 @@ export const Navbar20 = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col sm:flex place-content-center grow-0">
+              <div className="flex flex-col sm:flex place-content-center">
                 <div className="flex flex-row gap-6 w-full justify-start pb-8">
                   <div className="flex flex-col gap-1 capitalize text-2xl">
                     <Link href={"/"}>Link Two</Link>
@@ -122,29 +123,79 @@ export const Navbar20 = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col place-content-center grow-1">
-                <p>Subscribe</p>
-                <p>
-                  Join our newsletter to stay up to date on features and
-                  releases
-                </p>
-                <div className="flex justify-start gap-4 py-4">
-                  <Input className="rounded-none" type="text" />
-                  <Button className="rounded-none">Subscribe</Button>
+              <div className="flex flex-col  p-4 h-full w-1/4 bg-secondary">
+                <div className="flex flex-col gap-1 pb-8">
+                  <p>Featured from blog</p>
                 </div>
-                <p>
-                  By subscribing you agree to our Privacy Policy and provide
-                  consent to receive updates from out company
-                </p>
-                <div className="flex flex-col pt-10 pb-4">
-                  <div className="flex flex-col gap-2 pb-2">
-                    <h3 className="font-bold">Get in touch</h3>
-                    <p className="text-sm">1800 123 4567</p>
-                    <p className="text-sm">info@firestrap.io</p>
-                    <p className="text-sm">
-                      Level 1, 12 Sample St, Sydney NSW 2000
-                    </p>
+                <div className="flex flex-row gap-6 w-full items-start pb-2">
+                  <div className="bg-primary rounded-md w-full aspect-video h-full flex-1"></div>
+                  <div className="flex gap-4 pl-0 flex-col flex-1">
+                    <div className="flex gap-2 flex-col">
+                      <h2 className="leading-relaxed tracking-tighter lg:max-w-xl font-regular text-left">
+                        Article Title
+                      </h2>
+                      <p className="tracking-tight text-muted-foreground text-left">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                      </p>
+                      <Link className="underline" href={"/read-more"}>
+                        Read more
+                      </Link>
+                    </div>
                   </div>
+                </div>
+                <div className="flex flex-row gap-6 w-full items-start pb-2">
+                  <div className="bg-primary rounded-md w-full aspect-video h-full flex-1"></div>
+                  <div className="flex gap-4 pl-0 flex-col flex-1">
+                    <div className="flex gap-2 flex-col">
+                      <h2 className="leading-relaxed tracking-tighter lg:max-w-xl font-regular text-left">
+                        Article Title
+                      </h2>
+                      <p className="tracking-tight text-muted-foreground text-left">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                      </p>
+                      <Link className="underline" href={"/read-more"}>
+                        Read more
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-row gap-6 w-full items-start pb-2">
+                  <div className="bg-primary rounded-md w-full aspect-video h-full flex-1"></div>
+                  <div className="flex gap-4 pl-0 flex-col flex-1">
+                    <div className="flex gap-2 flex-col">
+                      <h2 className="leading-relaxed tracking-tighter lg:max-w-xl font-regular text-left">
+                        Article Title
+                      </h2>
+                      <p className="tracking-tight text-muted-foreground text-left">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                      </p>
+                      <Link className="underline" href={"/read-more"}>
+                        Read more
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-row gap-6 w-full items-start pb-2">
+                  <div className="bg-primary rounded-md w-full aspect-video h-full flex-1"></div>
+                  <div className="flex gap-4 pl-0 flex-col flex-1">
+                    <div className="flex gap-2 flex-col">
+                      <h2 className="leading-relaxed tracking-tighter lg:max-w-xl font-regular text-left">
+                        Article Title
+                      </h2>
+                      <p className="tracking-tight text-muted-foreground text-left">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                      </p>
+                      <Link className="underline" href={"/read-more"}>
+                        Read more
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-row gap-6 w-full items-start">
+                  <Link href={"/articles"}>See all articles</Link>
+                  <ChevronRight />
+                </div>
+                <div className="flex flex-col items-end pt-10 pb-4">
                   <div className="flex gap-2">
                     <FacebookIcon className="mt-2 text-primary" />
                     <InstagramIcon className="mt-2 text-primary" />
