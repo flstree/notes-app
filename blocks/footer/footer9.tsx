@@ -9,7 +9,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export const Footer1 = () => {
+export const Footer9 = () => {
   const navigationItems = [
     {
       title: "Home",
@@ -65,7 +65,7 @@ export const Footer1 = () => {
   return (
     <div className="w-full py-10 lg:py-20 bg-foreground text-background">
       <div className="container mx-auto">
-        <div className="grid lg:grid-cols-6 gap-2 items-start border-b pt-10 pb-40 px-10">
+        <div className="grid lg:grid-cols-6 gap-2 items-start border py-10 px-10">
           <div className="col-span-3 flex gap-8 flex-col items-start h-full w-full">
             <div className="flex gap-2 flex-col">
               <h2 className="text-3xl md:text-2xl tracking-tighter max-w-xl font-regular text-left">

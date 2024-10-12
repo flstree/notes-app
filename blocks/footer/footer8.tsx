@@ -9,7 +9,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export const Footer1 = () => {
+export const Footer8 = () => {
   const navigationItems = [
     {
       title: "Home",
@@ -65,17 +65,32 @@ export const Footer1 = () => {
   return (
     <div className="w-full py-10 lg:py-20 bg-foreground text-background">
       <div className="container mx-auto">
-        <div className="grid lg:grid-cols-6 gap-2 items-start border-b pt-10 pb-40 px-10">
-          <div className="col-span-3 flex gap-8 flex-col items-start h-full w-full">
+        <div className="grid lg:grid-cols-2 gap-2 items-between border-b py-10">
+          <div className="flex flex-col items-start h-full w-full">
             <div className="flex gap-2 flex-col">
               <h2 className="text-3xl md:text-2xl tracking-tighter max-w-xl font-regular text-left">
                 Logo
               </h2>
-              <p className="text-sm">
-                Join our newsletter to stay up to date on features and releases
-              </p>
+              <div className="flex gap-4">
+                <Link href="/link-one">Link One</Link>
+                <Link href="/link-one">Link Two</Link>
+                <Link href="/link-one">Link Three</Link>
+                <Link href="/link-one">Link Four</Link>
+                <Link href="/link-one">Link Five</Link>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col items-end h-full">
+            <div className="flex gap-2 flex-col">
+              <h2 className="text-md tracking-tighter max-w-xl font-regular text-left">
+                Subscribe
+              </h2>
               <div className="flex justify-start gap-4 py-4">
-                <Input className="rounded-none bg-primary" type="text" />
+                <Input
+                  className="rounded-none bg-primary"
+                  type="text"
+                  placeholder="Enter your email"
+                />
                 <Button className="rounded-none border">Subscribe</Button>
               </div>
               <p>
@@ -86,57 +101,11 @@ export const Footer1 = () => {
                 >
                   Privacy Policy
                 </Link>{" "}
-                and provide consent to receive updates from our company.
               </p>
             </div>
           </div>
-          <div className="col-span-2 grid lg:grid-cols-3 gap-10 items-start">
-            {navigationItems.map((item) => (
-              <div
-                key={item.title}
-                className="flex text-base gap-1 flex-col items-start"
-              >
-                <div className="flex flex-col gap-2">
-                  {item.items && <p className="text-md">{item.title}</p>}
-                  {item.items &&
-                    item.items.map((subItem) => (
-                      <Link
-                        key={subItem.title}
-                        href={subItem.href}
-                        className="flex justify-between items-center"
-                      >
-                        <span className="text-background/75 text-sm">
-                          {subItem.title}
-                        </span>
-                      </Link>
-                    ))}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="col-span-1 flex flex-col gap-2">
-            <p className="flex items-center">
-              <FacebookIcon className="text-secondary text-xs mr-2" /> Facebook
-            </p>
-            <p className="flex items-center">
-              <InstagramIcon className="text-secondary text-xs mr-2" />{" "}
-              Instagram
-            </p>
-            <p className="flex items-center">
-              <TwitterIcon className="text-secondary text-xs mr-2" /> Twitter
-            </p>
-            <p className="flex items-center">
-              <LinkedinIcon className="text-secondary text-xs mr-2" /> Linkedin
-            </p>
-            <p className="flex items-center">
-              <YoutubeIcon className="text-secondary text-xs mr-2" /> Youtube
-            </p>
-          </div>
         </div>
         <div className="flex justify-between py-8">
-          <div className="flex gap-4 text-sm">
-            <p>&copy; 2024 Firestrap. All rights reserved.</p>
-          </div>
           <div className="flex gap-2">
             <Link
               className="underline underline-offset-2"
@@ -156,6 +125,9 @@ export const Footer1 = () => {
             >
               Cookies Settings
             </Link>
+          </div>
+          <div className="flex text-sm">
+            <p>&copy; 2024 Firestrap. All rights reserved.</p>
           </div>
         </div>
       </div>

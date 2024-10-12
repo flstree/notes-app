@@ -123,7 +123,7 @@ export const Navbar21 = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col  p-4 h-full w-1/4 bg-secondary">
+              <div className="flex flex-col h-full p-4 w-1/2 bg-secondary overflow-auto">
                 <div className="flex flex-col gap-1 pb-8">
                   <p>Featured from blog</p>
                 </div>
