@@ -1,13 +1,13 @@
 "use client";
 
-import { MoveRight, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
-export const Header1 = () => (
+export const Header2 = () => (
   <div className="container mx-auto">
     <div className="flex gap-8 py-10 md:py-20 items-start justify-center flex-col">
       <div>
-        <Button variant="secondary" size="sm" className="gap-4">
+        <Button variant="outline" className="gap-4 rounded-none border-0">
           Tagline
         </Button>
       </div>
@@ -21,16 +21,14 @@ export const Header1 = () => (
           to streamline SMB trade, making it easier and faster than ever.
         </p>
       </div>
-      <div className="flex flex-row gap-3">
-        <Button className="gap-4 rounded-none">Jump on a call</Button>
-        <Button
-          className="gap-4 rounded-none border border-primary"
-          variant="outline"
-        >
-          Sign up here
-        </Button>
+      <div className="flex flex-col md:flex-row gap-4 w-full md:w-max">
+        <Input
+          className="rounded-none border border-primary"
+          type="text"
+          placeholder="Enter your email"
+        />
+        <Button className="rounded-none">Sign up</Button>
       </div>
     </div>
   </div>
 );
-

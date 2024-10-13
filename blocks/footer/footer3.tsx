@@ -56,21 +56,21 @@ export const Footer3 = () => {
   ];
 
   return (
-    <div className="w-full py-10 lg:py-20 bg-foreground text-background">
-      <div className="container mx-auto">
-        <div className="grid lg:grid-cols-5 gap-10 items-start border-b py-10 px-10">
+    <div className="w-full py-10 lg:py-20">
+      <div className="container mx-auto px-10">
+        <div className="grid lg:grid-cols-5 gap-10 items-start border-b border-primary py-10">
           <div className="col-span-4 flex gap-8 flex-col items-start">
             <div className="flex gap-2 flex-col">
               <h2 className="text-3xl md:text-2xl tracking-tighter max-w-xl font-regular text-left">
                 Logo
               </h2>
-              <p className="text-sm max-w-lg flex flex-col leading-relaxed tracking-tight text-background/75 text-left">
+              <p className="text-sm max-w-lg flex flex-col leading-relaxed tracking-tight text-left">
                 <strong>Address:</strong>
                 <span>Level 1,12 Sample St, Syndey NSW 2000</span>
               </p>
             </div>
             <div className="flex gap-20 flex-row">
-              <div className="flex flex-col text-sm max-w-lg leading-relaxed tracking-tight text-background/75 text-left">
+              <div className="flex flex-col text-sm max-w-lg leading-relaxed tracking-tight text-left">
                 <p>
                   <strong>Contact:</strong>
                 </p>
@@ -80,11 +80,11 @@ export const Footer3 = () => {
             </div>
             <div className="flex gap-20 flex-row">
               <div className="flex gap-2">
-                <FacebookIcon className="mt-2 text-secondary" />
-                <InstagramIcon className="mt-2 text-secondary" />
-                <TwitterIcon className="mt-2 text-secondary" />
-                <LinkedinIcon className="mt-2 text-secondary" />
-                <YoutubeIcon className="mt-2 text-secondary" />
+                <FacebookIcon />
+                <InstagramIcon />
+                <TwitterIcon />
+                <LinkedinIcon />
+                <YoutubeIcon />
               </div>
             </div>
           </div>
@@ -102,9 +102,7 @@ export const Footer3 = () => {
                         href={subItem.href}
                         className="flex justify-between items-center"
                       >
-                        <span className="text-background/75">
-                          {subItem.title}
-                        </span>
+                        <span>{subItem.title}</span>
                       </Link>
                     ))}
                 </div>
@@ -112,11 +110,11 @@ export const Footer3 = () => {
             ))}
           </div>
         </div>
-        <div className="flex justify-between py-8">
+        <div className="flex flex-col-reverse md:flex-row md:justify-between gap-2 md:gap-0 py-8">
           <div>
             <p>&copy; 2024 Firestrap. All rights reserved.</p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-col md:flex-row gap-2">
             <Link
               className="underline underline-offset-2"
               href="/privacy-policy"
@@ -135,3 +133,4 @@ export const Footer3 = () => {
     </div>
   );
 };
+  

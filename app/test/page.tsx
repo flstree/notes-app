@@ -1,12 +1,14 @@
 "use client";
 
-import { Hero5 } from "@/blocks/hero/hero5";
-import { Hero6 } from "@/blocks/hero/hero6";
+import { Footer11 } from "@/blocks/footer/footer11";
+import { Header2 } from "@/blocks/header/header2";
+import { Loader1 } from "@/blocks/loader/loader1";
 
 export default function Test() {
   return (
     <>
-      <Hero6 />
+      <Header2 />
+      <Footer11 />
     </>
   );
 }

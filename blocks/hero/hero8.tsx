@@ -1,17 +1,29 @@
-import { MoveRight, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
-export const Hero6 = () => (
-  <div
-    className="w-screen h-screen bg-cover bg-center px-4 md:px-20"
-    style={{
-      backgroundImage:
-        "url('https://i.pinimg.com/564x/47/5a/bc/475abcee227d7d47c2c094e7aaa4a4f0.jpg')",
-    }}
-  >
-    <div className="flex gap-8 py-20 lg:py-40 flex-col items-start h-full justify-center">
+export const Hero8 = () => (
+  <div className="w-screen h-screen relative overflow-hidden px-4 md:px-20">
+    <div className="absolute top-0 left-0 w-full h-full -z-10">
+      <iframe
+        className="w-0 h-0 md:w-full md:h-full object-cover"
+        src="https://www.youtube.com/embed/-CV14txxrIs?si=GZ_NmjZh2oqDzvuY&autoplay=1&mute=1&loop=1&playlist=-CV14txxrIs&controls=0&showinfo=0"
+        title="YouTube video player"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
+      ></iframe>
+      {/* <video
+        className="absolute top-0 left-0 w-full h-full object-cover -z-10"
+        src="https://www.example.com/your-video.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        ></video> */}
+    </div>
+    <div className="flex gap-8 py-20 lg:py-40 flex-col items-start h-full justify-center relative z-10">
       <div className="flex gap-4 flex-col">
         <h1 className="text-5xl md:text-7xl max-w-2xl tracking-tighter text-start font-regular">
           This is the start of something new

@@ -11,7 +11,7 @@ import {
 
 export const Footer5 = () => {
   return (
-    <div className="w-full py-10 lg:py-20 bg-foreground text-background">
+    <div className="w-full py-10 md:py-20">
       <div className="container mx-auto">
         <div className="grid lg:grid-cols-2 gap-2 items-between py-5">
           <div className="flex flex-col items-start h-full w-full">
@@ -20,7 +20,7 @@ export const Footer5 = () => {
                 Join our newsletter
               </h2>
               <div className="flex gap-4">
-                <p className="text-muted">
+                <p className="text-muted-foreground">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 </p>
               </div>
@@ -28,13 +28,18 @@ export const Footer5 = () => {
           </div>
           <div className="flex flex-col items-end h-full">
             <div className="flex gap-2 flex-col">
-              <div className="flex gap-4 py-4">
+              <div className="flex flex-col md:flex-row gap-4 py-4">
                 <Input
-                  className="rounded-none bg-primary"
+                  className="rounded-none border border-primary"
                   type="text"
                   placeholder="Enter your email"
                 />
-                <Button className="rounded-none border">Subscribe</Button>
+                <Button
+                  className="rounded-none border border-primary"
+                  variant="outline"
+                >
+                  Subscribe
+                </Button>
               </div>
               <p>
                 By subscribing you agree with our{" "}
@@ -48,7 +53,7 @@ export const Footer5 = () => {
             </div>
           </div>
         </div>
-        <div className="grid lg:grid-cols-6 gap-2 items-between border-b py-20">
+        <div className="grid md:grid-cols-6 gap-2 items-between border-b border-primary py-20">
           <div className="flex flex-col items-start gap-3">
             <h2 className="text-3xl md:text-2xl tracking-tighter max-w-xl font-regular text-left">
               Logo
@@ -145,8 +150,8 @@ export const Footer5 = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-between py-8">
-          <div className="flex gap-4 text-sm">
+        <div className="flex flex-col-reverse md:flex-row justify-between py-8">
+          <div className="flex flex-col-reverse md:flex-row gap-4 text-sm">
             <p>&copy; 2024 Firestrap. All rights reserved.</p>
             <Link
               className="underline underline-offset-2"
@@ -167,12 +172,12 @@ export const Footer5 = () => {
               Cookies Settings
             </Link>
           </div>
-          <div className="flex gap-2">
-            <FacebookIcon className="mt-2 text-secondary" />
-            <InstagramIcon className="mt-2 text-secondary" />
-            <TwitterIcon className="mt-2 text-secondary" />
-            <LinkedinIcon className="mt-2 text-secondary" />
-            <YoutubeIcon className="mt-2 text-secondary" />
+          <div className="flex gap-2 my-10 md:my-0">
+            <FacebookIcon />
+            <InstagramIcon />
+            <TwitterIcon />
+            <LinkedinIcon />
+            <YoutubeIcon />
           </div>
         </div>
       </div>
