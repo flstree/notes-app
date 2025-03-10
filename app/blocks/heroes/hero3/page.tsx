@@ -1,6 +1,5 @@
 "use client";
 
-import { Hero3 } from "@/blocks/hero/hero3";
 import { CopyCodeButton } from "@/components/copy-code-button";
 import {
   Breadcrumb,
@@ -102,9 +101,6 @@ export const Hero3 = () => (
                 </SyntaxHighlighter>
               </DialogContent>
             </Dialog>
-          </div>
-           <div className="rounded-md bg-background">
-            <Hero3 />
           </div>
         </div>
       </div>
