@@ -25,8 +25,7 @@ export const Features = () => (
                   alt="feature1"
                   width={3600}
                   height={1972}
-                  layout="responsive"
-                  className="rounded-md"
+                  className="rounded-md object-cover object-center"
                   loading="lazy"
                 />
               </div>
@@ -40,8 +39,7 @@ export const Features = () => (
                   alt="feature2"
                   width={3600}
                   height={1972}
-                  layout="responsive"
-                  className="rounded-md"
+                  className="rounded-md object-cover object-center"
                   loading="lazy"
                 />
               </div>
@@ -55,8 +53,7 @@ export const Features = () => (
                   alt="feature3"
                   width={3600}
                   height={1972}
-                  layout="responsive"
-                  className="rounded-md"
+                  className="rounded-md object-cover object-center"
                   loading="lazy"
                 />
               </div>
@@ -70,8 +67,7 @@ export const Features = () => (
                   alt="feature4"
                   width={3600}
                   height={1972}
-                  layout="responsive"
-                  className="rounded-md"
+                  className="rounded-md object-cover object-center"
                   loading="lazy"
                 />
               </div>
@@ -85,8 +81,7 @@ export const Features = () => (
                   alt="feature5"
                   width={3600}
                   height={1972}
-                  layout="responsive"
-                  className="rounded-md"
+                  className="rounded-md object-cover object-center"
                   loading="lazy"
                 />
               </div>
@@ -100,8 +95,7 @@ export const Features = () => (
                   alt="feature6"
                   width={3600}
                   height={1972}
-                  layout="responsive"
-                  className="rounded-md"
+                  className="rounded-md object-cover object-center"
                   loading="lazy"
                 />
               </div>
@@ -115,8 +109,7 @@ export const Features = () => (
                   alt="feature7"
                   width={3600}
                   height={1972}
-                  layout="responsive"
-                  className="rounded-md"
+                  className="rounded-md object-cover object-center"
                   loading="lazy"
                 />
               </div>

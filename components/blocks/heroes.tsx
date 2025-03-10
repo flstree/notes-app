@@ -25,8 +25,7 @@ export const Heroes = () => (
                   alt="Hero 1"
                   width={3600}
                   height={1972}
-                  layout="responsive"
-                  className="rounded-md"
+                  className="rounded-md object-cover object-center"
                   loading="lazy"
                 />
               </div>
@@ -40,8 +39,7 @@ export const Heroes = () => (
                   alt="Hero 2"
                   width={3600}
                   height={1972}
-                  layout="responsive"
-                  className="rounded-md"
+                  className="rounded-md object-cover object-center"
                   loading="lazy"
                 />
               </div>
@@ -55,8 +53,7 @@ export const Heroes = () => (
                   alt="Hero 3"
                   width={3600}
                   height={1972}
-                  layout="responsive"
-                  className="rounded-md"
+                  className="rounded-md object-cover object-center"
                   loading="lazy"
                 />
               </div>
@@ -70,8 +67,7 @@ export const Heroes = () => (
                   alt="Hero 4"
                   width={3600}
                   height={1972}
-                  layout="responsive"
-                  className="rounded-md"
+                  className="rounded-md object-cover object-center"
                   loading="lazy"
                 />
               </div>

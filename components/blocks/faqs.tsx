@@ -26,8 +26,7 @@ export const FAQs = () => (
                   alt="faq1"
                   width={3600}
                   height={1972}
-                  layout="responsive"
-                  className="rounded-md"
+                  className="rounded-md object-cover object-center"
                   loading="lazy"
                 />
               </div>
@@ -41,8 +40,7 @@ export const FAQs = () => (
                   alt="faq2"
                   width={3600}
                   height={1972}
-                  layout="responsive"
-                  className="rounded-md"
+                  className="rounded-md object-cover object-center"
                   loading="lazy"
                 />
               </div>

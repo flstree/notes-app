@@ -25,8 +25,7 @@ export const Contacts = () => (
                   alt="contact1"
                   width={3600}
                   height={1972}
-                  layout="responsive"
-                  className="rounded-md"
+                  className="rounded-md object-cover object-center"
                   loading="lazy"
                 />
               </div>

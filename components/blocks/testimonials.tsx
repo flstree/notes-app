@@ -25,11 +25,10 @@ export const Testimonials = () => (
               <div className="bg-muted rounded-md aspect-video p-8 lg:p-20">
                 <Image
                   src="/testimonials1.png"
-                  alt="testimonials1"                 
+                  alt="testimonials1"
                   width={3600}
                   height={1972}
-                  layout="responsive"
-                  className="rounded-md"
+                  className="rounded-md object-cover object-center"
                   loading="lazy"
                 />
               </div>

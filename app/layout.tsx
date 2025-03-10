@@ -8,7 +8,7 @@ import { ModeToggle } from "@/components/ui/mode-toggle";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Firestrap",
+  title: "Notes - Obzeva",
   description: "Free SaaS website blocks based on React with shadcn & Tailwind",
   keywords:
     "tailwindcss, react, shadcn, design, webdesign, website, saas templates, saas website templates",
