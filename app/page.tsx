@@ -1,37 +1,26 @@
-"use client";
+import { cookies } from "next/headers";
+import Image from "next/image";
 
-import { Heroes } from "@/components/blocks/heroes";
-import { Header } from "@/components/header";
-import { Hero } from "@/components/blocks/hero";
-import { Cases } from "@/components/blocks/cases";
-import { Testimonials } from "@/components/blocks/testimonials";
-import { Features } from "@/components/blocks/features";
-import { Pricings } from "@/components/blocks/pricings";
-import { Stats } from "@/components/blocks/stats";
-import { CTAs } from "@/components/blocks/ctas";
-import { Blogs } from "@/components/blocks/blogs";
-import { FAQs } from "@/components/blocks/faqs";
-import { Contacts } from "@/components/blocks/contacts";
-import { Footers } from "@/components/blocks/footers";
-import { Headers } from "@/components/blocks/headers";
+import { Notes } from "@/app/dashboard/components/notes";
+import { accounts, mails } from "@/app/dashboard/data";
 
 export default function Home() {
+  const layout = cookies().get("react-resizable-panels:layout:mail");
+  const collapsed = cookies().get("react-resizable-panels:collapsed");
+
+  const defaultLayout = layout ? JSON.parse(layout.value) : undefined;
+  const defaultCollapsed = collapsed ? JSON.parse(collapsed.value) : undefined;
+
   return (
     <>
-      <Header />
-      <Hero />
-      <Headers />
-      <Heroes />
-      <Cases />
-      <Testimonials />
-      <Features />
-      <Pricings />
-      <Stats />
-      <CTAs />
-      <Blogs />
-      <FAQs />
-      <Contacts />
-      <Footers />
+      <div className="hidden flex-col md:flex">
+        <Notes
+          mails={mails}
+          defaultLayout={defaultLayout}
+          defaultCollapsed={defaultCollapsed}
+          navCollapsedSize={4}
+        />
+      </div>
     </>
   );
 }

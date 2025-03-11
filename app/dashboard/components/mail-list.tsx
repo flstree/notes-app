@@ -35,7 +35,7 @@ export function MailList({ items }: MailListProps) {
             <div className="flex w-full flex-col gap-1">
               <div className="flex items-center">
                 <div className="flex items-center gap-2">
-                  <div className="font-semibold">{item.name}</div>
+                  <div className="font-semibold">{item.subject}</div>
                   {!item.read && (
                     <span className="flex h-2 w-2 rounded-full bg-blue-600" />
                   )}
@@ -53,7 +53,6 @@ export function MailList({ items }: MailListProps) {
                   })}
                 </div>
               </div>
-              <div className="text-xs font-medium">{item.subject}</div>
             </div>
             <div className="line-clamp-2 text-xs text-muted-foreground">
               {item.text.substring(0, 300)}
@@ -71,7 +70,7 @@ export function MailList({ items }: MailListProps) {
         ))}
       </div>
     </ScrollArea>
-  )
+  );
 }
 
 function getBadgeVariantFromLabel(
