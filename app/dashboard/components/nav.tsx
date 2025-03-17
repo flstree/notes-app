@@ -4,24 +4,24 @@ import Link from "next/link"
 import { LucideIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
+import { DynamicIcon } from "../data";
 
 interface NavProps {
-  isCollapsed: boolean
-  links: {
-    title: string
-    label?: string
-    icon: LucideIcon
-    variant: "default" | "ghost"
-  }[]
+  isCollapsed: boolean;
+  links: any;
 }
 
-export function Nav({ links, isCollapsed }: NavProps) {
+export function Nav({
+  links,
+  isCollapsed,
+  onSelectSection,
+}: NavProps & { onSelectSection: (id: string) => void }) {
   return (
     <div
       data-collapsed={isCollapsed}
@@ -32,8 +32,8 @@ export function Nav({ links, isCollapsed }: NavProps) {
           isCollapsed ? (
             <Tooltip key={index} delayDuration={0}>
               <TooltipTrigger asChild>
-                <Link
-                  href="#"
+                <Button
+                  onClick={() => onSelectSection(link.id)}
                   className={cn(
                     buttonVariants({ variant: link.variant, size: "icon" }),
                     "h-9 w-9",
@@ -41,23 +41,26 @@ export function Nav({ links, isCollapsed }: NavProps) {
                       "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
                   )}
                 >
-                  <link.icon className="h-4 w-4" />
-                  <span className="sr-only">{link.title}</span>
-                </Link>
+                  <DynamicIcon
+                    iconName={link.properties.icon}
+                    className="h-4 w-4"
+                  />
+                  <span className="sr-only">{link.properties?.title}</span>
+                </Button>
               </TooltipTrigger>
               <TooltipContent side="right" className="flex items-center gap-4">
-                {link.title}
-                {link.label && (
+                {link.properties?.title}
+                {link.sourceLinks && (
                   <span className="ml-auto text-muted-foreground">
-                    {link.label}
+                    {link.sourceLinks.length}
                   </span>
                 )}
               </TooltipContent>
             </Tooltip>
           ) : (
-            <Link
+            <Button
               key={index}
-              href="#"
+              onClick={() => onSelectSection(link.id)}
               className={cn(
                 buttonVariants({ variant: link.variant, size: "sm" }),
                 link.variant === "default" &&
@@ -65,9 +68,12 @@ export function Nav({ links, isCollapsed }: NavProps) {
                 "justify-start"
               )}
             >
-              <link.icon className="mr-2 h-4 w-4" />
-              {link.title}
-              {link.label && (
+              <DynamicIcon
+                iconName={link.properties?.icon}
+                className="mr-2 h-4 w-4"
+              />
+              {link.properties?.title}
+              {link.sourceLinks && (
                 <span
                   className={cn(
                     "ml-auto",
@@ -75,13 +81,17 @@ export function Nav({ links, isCollapsed }: NavProps) {
                       "text-background dark:text-white"
                   )}
                 >
-                  {link.label}
+                  {
+                    link.sourceLinks.filter(
+                      (object) => object.label === "HAS_NOTE"
+                    ).length
+                  }
                 </span>
               )}
-            </Link>
+            </Button>
           )
         )}
       </nav>
     </div>
-  )
+  );
 }

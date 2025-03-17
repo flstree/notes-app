@@ -37,20 +37,44 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { Mail } from "@/app/dashboard/data"
+} from "@/components/ui/tooltip";
 import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
 import { useCreateBlockNote } from "@blocknote/react";
+import { Editor } from "./editor/dynamic-editor";
+import { useEffect, useState } from "react";
 
 interface NoteDashboardProps {
-  note: Mail | null;
+  note: any | null;
 }
 
 export function NoteDashboard({ note }: NoteDashboardProps) {
   const today = new Date();
-  const editor = useCreateBlockNote({});
+  console.log(note);
+  // Track the currently displayed note ID
+  const [currentNoteId, setCurrentNoteId] = useState(note?.id);
+  const [editorBlocks, setEditorBlocks] = useState([]);
+
+  useEffect(() => {
+    if (note?.id !== currentNoteId) {
+      const filteredPages =
+        note?.sourceLinks
+          ?.filter((source) => source.label === "HAS_PAGE")
+          ?.map((object) => object.target) || [];
+
+      const newBlocks = filteredPages
+        .map((page) => page.properties?.blocks || [])
+        .flat();
+
+      setCurrentNoteId(note?.id);
+      setTimeout(() => {
+        setEditorBlocks(newBlocks.length > 0 ? newBlocks : []); // Ensure it never receives `undefined`
+      }, 0);
+    }
+  }, [note?.id, note?.sourceLinks, currentNoteId]);
+
+  if (!note) return <div>Loading...</div>;
 
   return (
     <div className="flex h-full flex-col">
@@ -186,7 +210,7 @@ export function NoteDashboard({ note }: NoteDashboardProps) {
           <div className="flex items-start p-4">
             <div className="flex items-start gap-4 text-sm">
               <div className="grid gap-1">
-                <div className="font-semibold">{note.subject}</div>
+                <div className="font-semibold">{note.properties.subject}</div>
               </div>
             </div>
             {note.date && (
@@ -198,13 +222,15 @@ export function NoteDashboard({ note }: NoteDashboardProps) {
           <div className="flex items-start p-4 pt-0">
             <div className="flex items-start gap-4 text-sm">
               <div className="grid gap-1">
-                <div className="line-clamp-1 text-xs flex-wrap">{note.text}</div>
+                <div className="line-clamp-1 text-xs flex-wrap">
+                  {note.properties.text}
+                </div>
               </div>
             </div>
           </div>
           <Separator />
           <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
-          <BlockNoteView editor={editor} />
+            <Editor key={currentNoteId} blocks={editorBlocks} editable={true} />
           </div>
           <Separator className="mt-auto" />
           <div className="p-4">
@@ -212,7 +238,7 @@ export function NoteDashboard({ note }: NoteDashboardProps) {
               <div className="grid gap-4">
                 <Textarea
                   className="p-4"
-                  placeholder={`Reply ${note.name}...`}
+                  placeholder={`Reply ${note.properties?.name}...`}
                 />
                 <div className="flex items-center">
                   <Label

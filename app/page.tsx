@@ -1,10 +1,12 @@
 import { cookies } from "next/headers";
-import Image from "next/image";
-
 import { Notes } from "@/app/dashboard/components/notes";
-import { accounts, mails } from "@/app/dashboard/data";
+import { fetchSections } from "@/lib/api";
 
-export default function Home() {
+export default async function Home() {
+  // Fetch data in parallel
+  const sections = await fetchSections();
+
+  // Get layout settings from cookies
   const layout = cookies().get("react-resizable-panels:layout:mail");
   const collapsed = cookies().get("react-resizable-panels:collapsed");
 
@@ -15,7 +17,7 @@ export default function Home() {
     <>
       <div className="hidden flex-col md:flex">
         <Notes
-          mails={mails}
+          sections={sections.data}
           defaultLayout={defaultLayout}
           defaultCollapsed={defaultCollapsed}
           navCollapsedSize={4}

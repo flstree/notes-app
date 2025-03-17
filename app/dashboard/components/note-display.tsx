@@ -1,52 +1,40 @@
-import { addDays, addHours, format, nextSaturday } from "date-fns"
-import {
-  Archive,
-  ArchiveX,
-  Clock,
-  Forward,
-  MoreVertical,
-  Reply,
-  ReplyAll,
-  Trash2,
-} from "lucide-react"
+"use client";
 
-import {
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu"
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Label } from "@/components/ui/label"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { Separator } from "@/components/ui/separator"
-import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { Mail } from "@/app/dashboard/data"
+import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import { Editor } from "./editor/dynamic-editor";
+import { useEffect, useState } from "react";
 
 interface NoteDisplayProps {
-  note: Mail | null;
+  note: any | null;
 }
 
 export function NoteDisplay({ note }: NoteDisplayProps) {
-  const today = new Date();
+  // Track the currently displayed note ID
+  const [currentNoteId, setCurrentNoteId] = useState(note?.id);
+  const [editorBlocks, setEditorBlocks] = useState([]);
+
+  useEffect(() => {
+    if (note?.id !== currentNoteId) {
+      const filteredPages =
+        note?.sourceLinks
+          ?.filter((source) => source.label === "HAS_PAGE")
+          ?.map((object) => object.target) || [];
+
+      const newBlocks = filteredPages
+        .map((page) => page.properties?.blocks || [])
+        .flat();
+
+      setCurrentNoteId(note?.id);
+      setTimeout(() => {
+        setEditorBlocks(newBlocks.length > 0 ? newBlocks : []); // Ensure it never receives `undefined`
+      }, 0);
+    }
+  }, [note?.id, note?.sourceLinks, currentNoteId]);
 
   return (
     <div className="flex h-full flex-col">
@@ -55,25 +43,32 @@ export function NoteDisplay({ note }: NoteDisplayProps) {
           <div className="flex items-start p-4">
             <div className="flex items-start gap-4 text-sm">
               <div className="grid gap-1">
-                <div className="font-semibold">{note.subject}</div>
+                <div className="font-semibold">{note.properties.subject}</div>
               </div>
             </div>
             {note.date && (
               <div className="ml-auto text-xs text-muted-foreground">
-                {format(new Date(note.date), "PPpp")}
+                {format(new Date(note.createdAt), "PPpp")}
               </div>
             )}
           </div>
           <div className="flex items-start p-4 pt-0">
             <div className="flex items-start gap-4 text-sm">
               <div className="grid gap-1">
-                <div className="line-clamp-1 text-xs">{note.text}</div>
+                <div className="line-clamp-1 text-xs">
+                  {note.properties.text}
+                </div>
               </div>
             </div>
           </div>
           <Separator />
           <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
-            {note.text}
+            {/* Force re-render by using currentNoteId as a key */}
+            <Editor
+              key={currentNoteId}
+              blocks={editorBlocks}
+              editable={false}
+            />
           </div>
           <Separator className="mt-auto" />
           <div className="p-4">

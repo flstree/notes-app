@@ -1,41 +1,30 @@
 "use client"
 
 import * as React from "react"
-import {
-  Archive,
-  ArchiveX,
-  File,
-  Inbox,
-  Search,
-  Send,
-  Trash2,
-} from "lucide-react"
+import { Search } from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "@/components/ui/resizable"
-import { Separator } from "@/components/ui/separator"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
-import { TooltipProvider } from "@/components/ui/tooltip"
-import { AccountSwitcher } from "@/app/dashboard/components/account-switcher"
+} from "@/components/ui/resizable";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { AccountSwitcher } from "@/app/dashboard/components/account-switcher";
 import { NoteDisplay } from "@/app/dashboard/components/note-display";
-import { MailList } from "@/app/dashboard/components/mail-list";
+import { NoteList } from "@/app/dashboard/components/note-list";
 import { Nav } from "@/app/dashboard/components/nav";
-import { type Mail } from "@/app/dashboard/data";
-import { useMail } from "@/app/dashboard/use-mail";
-import { NoteDashboard } from "./note-dashboard"
+import { Section, type Note } from "@/app/dashboard/data";
+import { useNote } from "@/app/dashboard/use-note";
+import { NoteDashboard } from "./note-dashboard";
+import { CreateSection } from "./create-section";
+import { CreateNote } from "./editor/create-note";
 
 interface NotesProps {
-  mails: Mail[];
+  sections: any[];
   defaultLayout: number[] | undefined;
   defaultCollapsed?: boolean;
   navCollapsedSize: number;
@@ -43,14 +32,24 @@ interface NotesProps {
 }
 
 export function Notes({
-  mails,
+  sections,
   defaultLayout = [20, 32, 48],
   defaultCollapsed = false,
   navCollapsedSize,
   editorMode = false,
 }: NotesProps) {
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
-  const [mail] = useMail();
+  const [note] = useNote();
+  const [selectedSection, setSelectedSection] = React.useState<string | null>(
+    sections.length > 0 ? sections[0].id : null
+  );
+
+  // Filter notes based on selected section
+  const filteredNotes =
+    sections
+      ?.find((section) => section.id === selectedSection)
+      ?.sourceLinks?.filter((source) => source.label === "HAS_NOTE")
+      ?.map((object) => object.target) || [];
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -88,53 +87,18 @@ export function Notes({
         >
           <div
             className={cn(
-              "flex h-[52px] items-center justify-center",
+              "flex h-[52px] items-center justify-between",
               isCollapsed ? "h-[52px]" : "px-2"
             )}
           >
             <span className={cn("ml-2", isCollapsed && "hidden")}>Obzeva</span>
+            {editorMode && <CreateSection />}
           </div>
           <Separator />
           <Nav
             isCollapsed={isCollapsed}
-            links={[
-              {
-                title: "Frontend",
-                label: "128",
-                icon: Inbox,
-                variant: "default",
-              },
-              {
-                title: "Backend",
-                label: "9",
-                icon: File,
-                variant: "ghost",
-              },
-              {
-                title: "Mobile",
-                label: "",
-                icon: Send,
-                variant: "ghost",
-              },
-              {
-                title: "HTML",
-                label: "23",
-                icon: ArchiveX,
-                variant: "ghost",
-              },
-              {
-                title: "CSS",
-                label: "",
-                icon: Trash2,
-                variant: "ghost",
-              },
-              {
-                title: "NestJs",
-                label: "",
-                icon: Archive,
-                variant: "ghost",
-              },
-            ]}
+            links={sections as any}
+            onSelectSection={(id) => setSelectedSection(id)}
           />
         </ResizablePanel>
         <ResizableHandle withHandle />
@@ -142,20 +106,9 @@ export function Notes({
           <Tabs defaultValue="all">
             <div className="flex items-center px-4 py-2">
               <h1 className="text-xl font-bold">Notes</h1>
-              <TabsList className="ml-auto">
-                <TabsTrigger
-                  value="all"
-                  className="text-zinc-600 dark:text-zinc-200"
-                >
-                  All notes
-                </TabsTrigger>
-                <TabsTrigger
-                  value="unread"
-                  className="text-zinc-600 dark:text-zinc-200"
-                >
-                  Unread
-                </TabsTrigger>
-              </TabsList>
+              <div className="ml-auto">
+                {editorMode && <CreateNote section={selectedSection} />}
+              </div>
             </div>
             <Separator />
             <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -167,10 +120,10 @@ export function Notes({
               </form>
             </div>
             <TabsContent value="all" className="m-0">
-              <MailList items={mails} />
+              <NoteList items={filteredNotes} />
             </TabsContent>
             <TabsContent value="unread" className="m-0">
-              <MailList items={mails.filter((item) => !item.read)} />
+              <NoteList items={filteredNotes.filter((item) => !item.read)} />
             </TabsContent>
           </Tabs>
         </ResizablePanel>
@@ -178,11 +131,15 @@ export function Notes({
         <ResizablePanel defaultSize={defaultLayout[2]} minSize={30}>
           {editorMode ? (
             <NoteDashboard
-              note={mails.find((item) => item.id === mail.selected) || null}
+              note={
+                filteredNotes.find((item) => item.id === note.selected) || null
+              }
             />
           ) : (
             <NoteDisplay
-              note={mails.find((item) => item.id === mail.selected) || null}
+              note={
+                filteredNotes.find((item) => item.id === note.selected) || null
+              }
             />
           )}
         </ResizablePanel>
