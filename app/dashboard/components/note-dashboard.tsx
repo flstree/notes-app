@@ -1,47 +1,39 @@
 import { addDays, addHours, format, nextSaturday } from "date-fns"
 import {
   Archive,
-  ArchiveX,
   Clock,
   Forward,
   MoreVertical,
   Reply,
   ReplyAll,
   Trash2,
-} from "lucide-react"
+} from "lucide-react";
 import {
   DropdownMenuContent,
   DropdownMenuItem,
-} from "@/components/ui/dropdown-menu"
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dropdown-menu";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Separator } from "@/components/ui/separator"
-import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
+} from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import "@blocknote/core/fonts/inter.css";
-import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
-import { useCreateBlockNote } from "@blocknote/react";
 import { Editor } from "./editor/dynamic-editor";
 import { useEffect, useState } from "react";
 
@@ -51,30 +43,14 @@ interface NoteDashboardProps {
 
 export function NoteDashboard({ note }: NoteDashboardProps) {
   const today = new Date();
-  console.log(note);
   // Track the currently displayed note ID
   const [currentNoteId, setCurrentNoteId] = useState(note?.id);
-  const [editorBlocks, setEditorBlocks] = useState([]);
 
   useEffect(() => {
     if (note?.id !== currentNoteId) {
-      const filteredPages =
-        note?.sourceLinks
-          ?.filter((source) => source.label === "HAS_PAGE")
-          ?.map((object) => object.target) || [];
-
-      const newBlocks = filteredPages
-        .map((page) => page.properties?.blocks || [])
-        .flat();
-
       setCurrentNoteId(note?.id);
-      setTimeout(() => {
-        setEditorBlocks(newBlocks.length > 0 ? newBlocks : []); // Ensure it never receives `undefined`
-      }, 0);
     }
   }, [note?.id, note?.sourceLinks, currentNoteId]);
-
-  if (!note) return <div>Loading...</div>;
 
   return (
     <div className="flex h-full flex-col">
@@ -213,9 +189,9 @@ export function NoteDashboard({ note }: NoteDashboardProps) {
                 <div className="font-semibold">{note.properties.subject}</div>
               </div>
             </div>
-            {note.date && (
+            {note.createdAt && (
               <div className="ml-auto text-xs text-muted-foreground">
-                {format(new Date(note.date), "PPpp")}
+                {format(new Date(note.createdAt), "PPpp")}
               </div>
             )}
           </div>
@@ -230,7 +206,9 @@ export function NoteDashboard({ note }: NoteDashboardProps) {
           </div>
           <Separator />
           <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
-            <Editor key={currentNoteId} blocks={editorBlocks} editable={true} />
+            {/* Force re-render by using currentNoteId as a key */}
+            {/* <div>{JSON.stringify(note)}</div> */}
+            <Editor key={currentNoteId} note={note} editable={true} />
           </div>
           <Separator className="mt-auto" />
           <div className="p-4">

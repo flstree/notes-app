@@ -1,3 +1,5 @@
+"use client";
+
 import {
     Sheet,
     SheetClose,
@@ -12,9 +14,11 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react";
-import { createNote } from "@/lib/api";
+import { makeRequest } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
-export function CreateNote({ section }) {
+export function CreateNote({ section, onSave }) {
+  const router = useRouter();
     const [formData, setFormData] = useState({
       subject: "",
       description: "",
@@ -41,12 +45,15 @@ export function CreateNote({ section }) {
             labels: []
         }
 
-        const response = await createNote(data);
+        const response = await makeRequest(data, '/create-note');
   
         if (!response.ok) throw new Error("Failed to create note");
   
+        router.refresh();
         // Reset form after successful submission
         setFormData({ subject: "", description: "" });
+
+        onSave();
   
         // Close the modal (if needed)
         document.getElementById("close-sheet")?.click();
@@ -69,7 +76,7 @@ export function CreateNote({ section }) {
               Fill in the information below to create a note.
             </SheetDescription>
           </SheetHeader>
-          <form onSubmit={handleSubmit} className="grid gap-4 py-4">
+          <form className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4 w-full">
               <Label htmlFor="subject" className="text-left">
                 Subject
@@ -102,6 +109,7 @@ export function CreateNote({ section }) {
                   type="submit"
                   className="w-full"
                   disabled={loading}
+                  onClick={handleSubmit}
                 >
                   {loading ? "Saving..." : "Save changes"}
                 </Button>

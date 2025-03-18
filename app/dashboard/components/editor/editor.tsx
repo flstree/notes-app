@@ -6,18 +6,39 @@ import "@blocknote/mantine/style.css";
 import { useEffect } from "react";
  
 // Our <Editor> component we can reuse later
-export default function Editor({ blocks = null, editable = false }) {
+export default function Editor({ note = null, editable = false }) {
   const editor = useCreateBlockNote({
-    ...(blocks && { initialContent: blocks })
+    initialContent: [
+      {
+        type: "paragraph",
+      },
+    ],
   });
 
   useEffect(() => {
-    if (blocks?.length) {
-      editor.replaceBlocks(editor.document, blocks);
+    if (note) {
+      const filteredPages =
+        note?.sourceLinks
+          ?.filter((source) => source.label === "HAS_PAGE")
+          ?.map((object) => object.target) || [];
+
+      const blocks = filteredPages
+        .map((page) => page.properties?.blocks || [])
+        .flat();
+
+      // Ensure blocks is not empty, otherwise keep the initial block
+      editor.replaceBlocks(
+        editor.document,
+        blocks.length > 0
+          ? blocks
+          : [
+              {
+                type: "paragraph",
+              },
+            ]
+      );
     }
-  }, [blocks, editor]);
+  }, [note?.id, editor]);
 
-
-  // Renders the editor instance using a React component.
   return <BlockNoteView editor={editor} editable={editable} />;
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import React, { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -13,21 +13,20 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { AccountSwitcher } from "@/app/dashboard/components/account-switcher";
 import { NoteDisplay } from "@/app/dashboard/components/note-display";
 import { NoteList } from "@/app/dashboard/components/note-list";
 import { Nav } from "@/app/dashboard/components/nav";
-import { Section, type Note } from "@/app/dashboard/data";
 import { useNote } from "@/app/dashboard/use-note";
 import { NoteDashboard } from "./note-dashboard";
 import { CreateSection } from "./create-section";
-import { CreateNote } from "./editor/create-note";
+import { CreateNote } from "./create-note";
 
 interface NotesProps {
   sections: any[];
   defaultLayout: number[] | undefined;
   defaultCollapsed?: boolean;
   navCollapsedSize: number;
+  reloadData?: () => void;
   editorMode?: boolean;
 }
 
@@ -37,19 +36,24 @@ export function Notes({
   defaultCollapsed = false,
   navCollapsedSize,
   editorMode = false,
+  reloadData,
 }: NotesProps) {
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
   const [note] = useNote();
   const [selectedSection, setSelectedSection] = React.useState<string | null>(
     sections.length > 0 ? sections[0].id : null
   );
+  const [filteredNotes, setFilteredNotes] = useState([]);
 
-  // Filter notes based on selected section
-  const filteredNotes =
-    sections
-      ?.find((section) => section.id === selectedSection)
-      ?.sourceLinks?.filter((source) => source.label === "HAS_NOTE")
-      ?.map((object) => object.target) || [];
+  useEffect(() => {
+    const filtered =
+      sections
+        ?.find((section) => section.id === selectedSection)
+        ?.sourceLinks?.filter((source) => source.label === "HAS_NOTE")
+        ?.map((object) => object.target) || [];
+
+    setFilteredNotes(filtered);
+  }, [selectedSection, sections]);
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -92,7 +96,7 @@ export function Notes({
             )}
           >
             <span className={cn("ml-2", isCollapsed && "hidden")}>Obzeva</span>
-            {editorMode && <CreateSection />}
+            {editorMode && <CreateSection onSave={reloadData} />}
           </div>
           <Separator />
           <Nav
@@ -107,7 +111,9 @@ export function Notes({
             <div className="flex items-center px-4 py-2">
               <h1 className="text-xl font-bold">Notes</h1>
               <div className="ml-auto">
-                {editorMode && <CreateNote section={selectedSection} />}
+                {editorMode && (
+                  <CreateNote onSave={reloadData} section={selectedSection} />
+                )}
               </div>
             </div>
             <Separator />

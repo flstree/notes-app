@@ -16,23 +16,10 @@ interface NoteDisplayProps {
 export function NoteDisplay({ note }: NoteDisplayProps) {
   // Track the currently displayed note ID
   const [currentNoteId, setCurrentNoteId] = useState(note?.id);
-  const [editorBlocks, setEditorBlocks] = useState([]);
 
   useEffect(() => {
     if (note?.id !== currentNoteId) {
-      const filteredPages =
-        note?.sourceLinks
-          ?.filter((source) => source.label === "HAS_PAGE")
-          ?.map((object) => object.target) || [];
-
-      const newBlocks = filteredPages
-        .map((page) => page.properties?.blocks || [])
-        .flat();
-
       setCurrentNoteId(note?.id);
-      setTimeout(() => {
-        setEditorBlocks(newBlocks.length > 0 ? newBlocks : []); // Ensure it never receives `undefined`
-      }, 0);
     }
   }, [note?.id, note?.sourceLinks, currentNoteId]);
 
@@ -64,11 +51,7 @@ export function NoteDisplay({ note }: NoteDisplayProps) {
           <Separator />
           <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
             {/* Force re-render by using currentNoteId as a key */}
-            <Editor
-              key={currentNoteId}
-              blocks={editorBlocks}
-              editable={false}
-            />
+            <Editor key={currentNoteId} note={note} editable={false} />
           </div>
           <Separator className="mt-auto" />
           <div className="p-4">
