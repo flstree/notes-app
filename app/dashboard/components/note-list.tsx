@@ -16,13 +16,13 @@ export function NoteList({ items }: NoteListProps) {
 
   return (
     <ScrollArea className="h-screen">
-      <div className="flex flex-col gap-2 p-4 pt-0">
+      <div className="flex flex-col gap-2 p-4 pt-0 pb-24">
         {items.map((item) => (
           <button
             key={item.id}
             className={cn(
-              "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent",
-              note.selected === item.id && "bg-muted"
+              "flex flex-col items-start gap-2 rounded-lg border-none p-3 text-left text-sm transition-all bg-[#e9ecef] hover:bg-[#ffbf69]",
+              note.selected === item.id && "bg-[#ffbf69] text-white"
             )}
             onClick={() =>
               setNote({
@@ -32,29 +32,36 @@ export function NoteList({ items }: NoteListProps) {
             }
           >
             <div className="flex w-full flex-col gap-1">
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-start">
                 <div className="flex items-center gap-2">
                   <div className="font-semibold">{item.properties.subject}</div>
                   {/* {!item.read && (
                     <span className="flex h-2 w-2 rounded-full bg-blue-600" />
                   )} */}
                 </div>
-                <div
-                  className={cn(
-                    "mr-auto text-xs",
-                    note.selected === item.id
-                      ? "text-foreground"
-                      : "text-muted-foreground"
-                  )}
-                >
-                  {formatDistanceToNow(new Date(item.createdAt), {
-                    addSuffix: true,
-                  })}
-                </div>
               </div>
             </div>
-            <div className="line-clamp-2 text-xs text-muted-foreground">
+            <div
+              className={cn(
+                "line-clamp-2 text-xs",
+                note.selected === item.id
+                  ? "text-white"
+                  : "text-muted-foreground"
+              )}
+            >
               {item.properties.text?.substring(0, 300)}
+            </div>
+            <div
+              className={cn(
+                "mr-auto text-xs",
+                note.selected === item.id
+                  ? "text-white"
+                  : "text-muted-foreground"
+              )}
+            >
+              {formatDistanceToNow(new Date(item.createdAt), {
+                addSuffix: true,
+              })}
             </div>
           </button>
         ))}

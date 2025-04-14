@@ -69,9 +69,9 @@ export function Notes({
         <ResizablePanel
           defaultSize={defaultLayout[0]}
           collapsedSize={navCollapsedSize}
-          collapsible={true}
+          collapsible={false}
           minSize={15}
-          maxSize={20}
+          maxSize={16}
           onCollapse={() => {
             setIsCollapsed(true);
             document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
@@ -91,14 +91,25 @@ export function Notes({
         >
           <div
             className={cn(
-              "flex h-[52px] items-center justify-between",
-              isCollapsed ? "h-[52px]" : "px-2"
+              "flex h-[56px] items-center justify-between",
+              isCollapsed ? "h-[56px]" : "px-2"
             )}
           >
             <span className={cn("ml-2", isCollapsed && "hidden")}>Obzeva</span>
             {editorMode && <CreateSection onSave={reloadData} />}
           </div>
           <Separator />
+          <div className="bg-background/95 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <form>
+              <div className="relative flex items-center">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search"
+                  className="pl-8 border-none rounded-none outline-none"
+                />
+              </div>
+            </form>
+          </div>
           <Nav
             isCollapsed={isCollapsed}
             links={sections as any}
@@ -106,7 +117,11 @@ export function Notes({
           />
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
+        <ResizablePanel
+          defaultSize={defaultLayout[1]}
+          minSize={25}
+          maxSize={30}
+        >
           <Tabs defaultValue="all">
             <div className="flex items-center px-4 py-2">
               <h1 className="text-xl font-bold">Notes</h1>
@@ -117,15 +132,7 @@ export function Notes({
               </div>
             </div>
             <Separator />
-            <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-              <form>
-                <div className="relative">
-                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Search" className="pl-8" />
-                </div>
-              </form>
-            </div>
-            <TabsContent value="all" className="m-0">
+            <TabsContent value="all" className="m-0 mt-4">
               <NoteList items={filteredNotes} />
             </TabsContent>
             <TabsContent value="unread" className="m-0">
@@ -134,12 +141,17 @@ export function Notes({
           </Tabs>
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={defaultLayout[2]} minSize={30}>
+        <ResizablePanel
+          defaultSize={defaultLayout[2]}
+          minSize={30}
+          maxSize={31}
+        >
           {editorMode ? (
             <NoteDashboard
               note={
                 filteredNotes.find((item) => item.id === note.selected) || null
               }
+              onDelete={reloadData}
             />
           ) : (
             <NoteDisplay

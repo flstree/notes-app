@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Header } from "@/components/header";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -12,10 +11,7 @@ export const metadata: Metadata = {
   description: "Free SaaS website blocks based on React with shadcn & Tailwind",
   keywords:
     "tailwindcss, react, shadcn, design, webdesign, website, saas templates, saas website templates",
-  authors: [
-    { name: "Abdullah Momoh", url: "https://tommyjepsen.com" },
-    { name: "Tommy Jepsen", url: "https://tommyjepsen.com" },
-  ],
+  authors: [{ name: "Abdullah Momoh", url: "https://obzeva.dev" }],
 };
 
 export default function RootLayout({

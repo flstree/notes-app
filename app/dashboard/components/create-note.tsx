@@ -45,7 +45,7 @@ export function CreateNote({ section, onSave }) {
             labels: []
         }
 
-        const response = await makeRequest(data, '/create-note');
+        const response = await makeRequest(data, "/notes/create-note");
   
         if (!response.ok) throw new Error("Failed to create note");
   
@@ -66,8 +66,11 @@ export function CreateNote({ section, onSave }) {
   
     return (
       <Sheet>
-        <SheetTrigger asChild>
-          <Button>Create Note</Button>
+        <SheetTrigger
+          className="bg-inherit text-black dark:text-white hover:bg-[#fb8500] hover:text-white rounded-full p-4"
+          asChild
+        >
+          <Button>+</Button>
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>

@@ -17,7 +17,11 @@ import { useState } from "react";
 import { makeRequest } from "@/lib/api";
 import { useRouter } from "next/navigation";
 
-export function CreateSection({ onSave }) {
+interface CreateSectionProps {
+  onSave: () => void;
+}
+
+export function CreateSection({ onSave }: CreateSectionProps) {
   const router = useRouter();
   const [formData, setFormData] = useState({
     title: "",
@@ -43,7 +47,7 @@ export function CreateSection({ onSave }) {
         ...formData,
       };
 
-      const response = await makeRequest(data, "/create-section");
+      const response = await makeRequest(data, "/notes/create-section");
 
       if (!response.ok) throw new Error("Failed to create section");
 
@@ -64,8 +68,11 @@ export function CreateSection({ onSave }) {
 
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button>Create Section</Button>
+      <SheetTrigger
+        className="bg-inherit text-black dark:text-white hover:bg-[#fb8500] hover:text-white rounded-full p-4"
+        asChild
+      >
+        <Button>+</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

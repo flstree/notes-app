@@ -36,15 +36,31 @@ import "@blocknote/core/fonts/inter.css";
 import "@blocknote/mantine/style.css";
 import { Editor } from "./editor/dynamic-editor";
 import { useEffect, useState } from "react";
+import { deleteObject } from "@/lib/api";
 
 interface NoteDashboardProps {
   note: any | null;
+  onDelete: () => void;
 }
 
-export function NoteDashboard({ note }: NoteDashboardProps) {
+export function NoteDashboard({ note, onDelete }: NoteDashboardProps) {
   const today = new Date();
   // Track the currently displayed note ID
   const [currentNoteId, setCurrentNoteId] = useState(note?.id);
+
+  const deleteNote = async (note) => {
+    if (!note) return;
+
+    const objectsToDelete = [
+      ...(note?.sourceLinks
+        ?.filter((source) => source.label === "HAS_PAGE")
+        ?.map((source) => deleteObject(source.target?.id)) || []),
+      deleteObject(note.id),
+    ];
+
+    await Promise.all(objectsToDelete);
+    onDelete();
+  };
 
   useEffect(() => {
     if (note?.id !== currentNoteId) {
@@ -53,9 +69,18 @@ export function NoteDashboard({ note }: NoteDashboardProps) {
   }, [note?.id, note?.sourceLinks, currentNoteId]);
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-screen flex-col">
       <div className="flex items-center p-2">
         <div className="flex items-center gap-2">
+          <Tooltip>
+            <TooltipTrigger asChild onClick={() => deleteNote(note)}>
+              <Button variant="ghost" size="icon" disabled={!note}>
+                <Trash2 className="h-4 w-4" />
+                <span className="sr-only">Delete</span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Delete</TooltipContent>
+          </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
               <Button variant="ghost" size="icon" disabled={!note}>
@@ -64,15 +89,6 @@ export function NoteDashboard({ note }: NoteDashboardProps) {
               </Button>
             </TooltipTrigger>
             <TooltipContent>Archive</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" disabled={!note}>
-                <Trash2 className="h-4 w-4" />
-                <span className="sr-only">Delete</span>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Delete</TooltipContent>
           </Tooltip>
           <Separator orientation="vertical" className="mx-1 h-6" />
           <Tooltip>
@@ -183,28 +199,6 @@ export function NoteDashboard({ note }: NoteDashboardProps) {
       <Separator />
       {note ? (
         <div className="flex flex-1 flex-col">
-          <div className="flex items-start p-4">
-            <div className="flex items-start gap-4 text-sm">
-              <div className="grid gap-1">
-                <div className="font-semibold">{note.properties.subject}</div>
-              </div>
-            </div>
-            {note.createdAt && (
-              <div className="ml-auto text-xs text-muted-foreground">
-                {format(new Date(note.createdAt), "PPpp")}
-              </div>
-            )}
-          </div>
-          <div className="flex items-start p-4 pt-0">
-            <div className="flex items-start gap-4 text-sm">
-              <div className="grid gap-1">
-                <div className="line-clamp-1 text-xs flex-wrap">
-                  {note.properties.text}
-                </div>
-              </div>
-            </div>
-          </div>
-          <Separator />
           <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
             {/* Force re-render by using currentNoteId as a key */}
             {/* <div>{JSON.stringify(note)}</div> */}
