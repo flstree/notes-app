@@ -1,6 +1,6 @@
 import { atom, useAtom } from "jotai"
 
-import { Note, notes } from "@/app/dashboard/data";
+import { Note, notes } from "@/app/notes/data";
 
 type Config = {
   selected: Note["id"] | null;

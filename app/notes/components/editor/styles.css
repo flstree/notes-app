@@ -40,3 +40,7 @@
     --bn-colors-side-menu: #383838;
     --bn-colors-selected-background: #66bb6a; /* Lighter green in dark mode */
 }
+
+.bn-editor {
+    min-height: 100svh;
+}

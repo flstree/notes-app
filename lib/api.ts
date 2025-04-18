@@ -3,12 +3,22 @@ dotenv.config({});
 
 const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
 export async function fetchSections() {
-  const res = await fetch(`${BASE_API_URL}/notes/fetch-sections`);
+  const res = await fetch(`${BASE_API_URL}/objects`);
+
+  if (!res.ok) {
+    return {
+      status: false,
+      statusCode: res.status,
+      message: res.statusText || "A server error occurred",
+      data: [],
+    };
+  }
+
   return res.json();
 }
 
-export async function fetchNote(noteId: string) {
-  const response = await fetch(`${BASE_API_URL}/notes/fetch-note/${noteId}`);
+export async function fetchObject(noteId: string) {
+  const response = await fetch(`${BASE_API_URL}/objects/${noteId}`);
   if (!response.ok) {
     throw new Error("Failed to process request");
   }
@@ -16,11 +26,8 @@ export async function fetchNote(noteId: string) {
   return response.json();
 }
 
-export async function makeRequest(
-  data: Record<string, unknown>,
-  route: string
-) {
-  const url = `${BASE_API_URL}${route}`;
+export async function makeRequest(data: Record<string, unknown>) {
+  const url = `${BASE_API_URL}${"/objects"}`;
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -35,7 +42,7 @@ export async function makeRequest(
     throw new Error("Failed to process request");
   }
 
-  return response;
+  return response.json();
 }
 
 export async function updateObject(objectId: string, properties: any) {

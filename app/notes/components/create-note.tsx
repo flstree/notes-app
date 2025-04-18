@@ -38,23 +38,37 @@ export function CreateNote({ section, onSave }) {
       setError("");
   
       try {
-        const data = {
+        const createNoteFormData = {
+          type: "note",
+          parentId: section,
+          properties: {
             ...formData,
-            sectionId: section,
             text: formData.description,
-            labels: []
-        }
+            labels: [],
+          },
+        };
+        const { data: note } = await makeRequest(createNoteFormData);
 
-        const response = await makeRequest(data, "/notes/create-note");
-  
-        if (!response.ok) throw new Error("Failed to create note");
-  
+        const createPageFormData = {
+          type: "page",
+          parentId: note.id,
+          properties: {
+            blocks: [
+              {
+                type: "paragraph",
+              },
+            ],
+          },
+        };
+
+        await makeRequest(createPageFormData);
+
         router.refresh();
         // Reset form after successful submission
         setFormData({ subject: "", description: "" });
 
         onSave();
-  
+
         // Close the modal (if needed)
         document.getElementById("close-sheet")?.click();
       } catch (err: any) {

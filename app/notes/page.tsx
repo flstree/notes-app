@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Notes } from "@/app/dashboard/components/notes";
+import { Notes } from "@/app/notes/components/notes";
 import { fetchSections } from "@/lib/api";
 
 export default function DashboardClient() {

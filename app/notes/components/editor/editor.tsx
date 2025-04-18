@@ -6,7 +6,7 @@ import "@blocknote/mantine/style.css";
 import { useEffect, useState } from "react";
 import { Block, PartialBlock } from "@blocknote/core";
 import { debounce } from "lodash";
-import { fetchNote, updateObject } from "@/lib/api";
+import { fetchObject, updateObject } from "@/lib/api";
 import { Loader1 } from "@/blocks/loader/loader1";
 
 import "./styles.css";
@@ -30,10 +30,9 @@ function saveToStorage(pageId: string, jsonBlocks: Block[]) {
 async function loadNote(note) {
   if (!note) return undefined;
 
-  const pages =
-    note?.sourceLinks
-      ?.filter((source) => source.label === "HAS_PAGE")
-      ?.map((source) => source.target) || [];
+  console.log(note);
+
+  const pages = note?.children?.filter((child) => child.type === "page") || [];
 
   const blocks = pages.flatMap(
     (page) => page?.properties?.blocks || []
@@ -55,12 +54,13 @@ export default function Editor({ note = null, editable = false }) {
         type: "paragraph",
       },
     ],
+    setIdAttribute: true,
   });
 
   const loadNoteFromApi = async (noteId) => {
     try {
       setLoading(true);
-      const { data } = await fetchNote(noteId);
+      const { data } = await fetchObject(noteId);
       loadNote(data).then((content) => {
         setPages(content.pages);
         if (editor && content?.blocks) {
@@ -96,6 +96,7 @@ export default function Editor({ note = null, editable = false }) {
         }}
         editor={editor}
         editable={editable}
+        comments={true}
         onChange={() => {
           saveToStorage(pages[0]?.id, editor.document);
         }}

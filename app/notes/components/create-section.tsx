@@ -43,13 +43,25 @@ export function CreateSection({ onSave }: CreateSectionProps) {
     setError("");
 
     try {
-      const data = {
-        ...formData,
+      const createSectionFormData = {
+        type: "section",
+        properties: {
+          ...formData,
+        },
       };
 
-      const response = await makeRequest(data, "/notes/create-section");
+      const { data: section } = await makeRequest(createSectionFormData);
 
-      if (!response.ok) throw new Error("Failed to create section");
+      const createAccessPolicyFormData = {
+        type: "accessPolicy",
+        parentId: section.id,
+        properties: {
+          scope: "public",
+          members: [],
+        },
+      };
+
+      await makeRequest(createAccessPolicyFormData);
 
       router.refresh();
       // Reset form after successful submission

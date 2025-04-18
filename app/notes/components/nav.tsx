@@ -1,9 +1,8 @@
 "use client"
 
-import Link from "next/link"
-import { LucideIcon } from "lucide-react"
+import { Trash2 } from "lucide-react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Tooltip,
@@ -12,15 +11,20 @@ import {
 } from "@/components/ui/tooltip";
 import { DynamicIcon } from "../data";
 import { useEffect, useState } from "react";
+import { deleteObject } from "@/lib/api";
 
 interface NavProps {
   isCollapsed: boolean;
+  editorMode: boolean;
   links: any;
+  onDelete: () => void;
 }
 
 export function Nav({
   links,
+  editorMode,
   isCollapsed,
+  onDelete,
   onSelectSection,
 }: NavProps & { onSelectSection: (id: string) => void }) {
   const [selectedLink, setSelectedLink] = useState<string>(null);
@@ -28,6 +32,14 @@ export function Nav({
   const handleSelection = (linkId) => {
     setSelectedLink(linkId);
     onSelectSection(linkId);
+  };
+
+  const deleteSection = async (sectionId: string) => {
+    if (!sectionId) return;
+
+    await deleteObject(sectionId);
+
+    onDelete();
   };
 
   useEffect(() => {
@@ -39,8 +51,6 @@ export function Nav({
       });
     }
   }, [links]);
-
-  //useEffect(() => {}, [])
 
   return (
     <div
@@ -70,9 +80,9 @@ export function Nav({
               </TooltipTrigger>
               <TooltipContent side="right" className="flex items-center gap-4">
                 {link.properties?.title}
-                {link.sourceLinks && (
+                {link.children && (
                   <span className="ml-auto text-muted-foreground">
-                    {link.sourceLinks.length}
+                    {link.children.length}
                   </span>
                 )}
               </TooltipContent>
@@ -96,20 +106,29 @@ export function Nav({
                 className="mr-2 h-4 w-4"
               />
               {link.properties?.title}
-              {link.sourceLinks && (
-                <span
-                  className={cn(
-                    "ml-auto",
-                    link.variant === "default" &&
-                      "text-background dark:text-white"
-                  )}
-                >
-                  {
-                    link.sourceLinks.filter(
-                      (object) => object.label === "HAS_NOTE"
-                    ).length
-                  }
-                </span>
+              {link.children && (
+                <>
+                  <span
+                    className={cn(
+                      "ml-auto",
+                      link.variant === "default" &&
+                        "text-background dark:text-white"
+                    )}
+                  >
+                    {
+                      link.children.filter((child) => child.type === "note")
+                        .length
+                    }
+                  </span>
+                  {editorMode && 
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => deleteSection(link.id)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>}
+                </>
               )}
             </Button>
           )

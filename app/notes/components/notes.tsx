@@ -13,10 +13,10 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { NoteDisplay } from "@/app/dashboard/components/note-display";
-import { NoteList } from "@/app/dashboard/components/note-list";
-import { Nav } from "@/app/dashboard/components/nav";
-import { useNote } from "@/app/dashboard/use-note";
+import { NoteDisplay } from "@/app/notes/components/note-display";
+import { NoteList } from "@/app/notes/components/note-list";
+import { Nav } from "@/app/notes/components/nav";
+import { useNote } from "@/app/notes/use-note";
 import { NoteDashboard } from "./note-dashboard";
 import { CreateSection } from "./create-section";
 import { CreateNote } from "./create-note";
@@ -40,20 +40,27 @@ export function Notes({
 }: NotesProps) {
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
   const [note] = useNote();
-  const [selectedSection, setSelectedSection] = React.useState<string | null>(
-    sections.length > 0 ? sections[0].id : null
+  const [selectedSection, setSelectedSection] = React.useState<any | null>(
+    sections.length > 0 ? sections[0] : null
   );
   const [filteredNotes, setFilteredNotes] = useState([]);
+
+
+  const switchSection = (id: string) => {
+    const section = sections.find((section) => section.id === id);
+    setSelectedSection(section);
+  }
 
   useEffect(() => {
     const filtered =
       sections
-        ?.find((section) => section.id === selectedSection)
-        ?.sourceLinks?.filter((source) => source.label === "HAS_NOTE")
-        ?.map((object) => object.target) || [];
+        ?.find((section) => section.id === selectedSection?.id)
+        ?.children?.filter((child) => child.type === "note") || [];
 
     setFilteredNotes(filtered);
   }, [selectedSection, sections]);
+
+  console.log(selectedSection);
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -112,8 +119,10 @@ export function Notes({
           </div>
           <Nav
             isCollapsed={isCollapsed}
+            editorMode={editorMode}
             links={sections as any}
-            onSelectSection={(id) => setSelectedSection(id)}
+            onDelete={reloadData}
+            onSelectSection={(id) => switchSection(id)}
           />
         </ResizablePanel>
         <ResizableHandle withHandle />
@@ -127,7 +136,7 @@ export function Notes({
               <h1 className="text-xl font-bold">Notes</h1>
               <div className="ml-auto">
                 {editorMode && (
-                  <CreateNote onSave={reloadData} section={selectedSection} />
+                  <CreateNote onSave={reloadData} section={selectedSection?.id} />
                 )}
               </div>
             </div>
@@ -151,6 +160,7 @@ export function Notes({
               note={
                 filteredNotes.find((item) => item.id === note.selected) || null
               }
+              sectionTitle={selectedSection?.properties?.title}
               onDelete={reloadData}
             />
           ) : (
