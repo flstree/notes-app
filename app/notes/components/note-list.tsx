@@ -3,8 +3,7 @@ import { formatDistanceToNow } from "date-fns"
 
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Note } from "@/app/notes/data";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNote } from "@/app/notes/use-note";
 
 interface NoteListProps {

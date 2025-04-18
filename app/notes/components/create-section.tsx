@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { makeRequest } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import { ObjectTypes } from "@/lib/constants";
 
 interface CreateSectionProps {
   onSave: () => void;
@@ -44,7 +45,7 @@ export function CreateSection({ onSave }: CreateSectionProps) {
 
     try {
       const createSectionFormData = {
-        type: "section",
+        type: ObjectTypes.Section,
         properties: {
           ...formData,
         },
@@ -53,7 +54,7 @@ export function CreateSection({ onSave }: CreateSectionProps) {
       const { data: section } = await makeRequest(createSectionFormData);
 
       const createAccessPolicyFormData = {
-        type: "accessPolicy",
+        type: ObjectTypes.AccessPolicy,
         parentId: section.id,
         properties: {
           scope: "public",

@@ -1,11 +1,7 @@
 "use client";
 
 import { format } from "date-fns";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
 import { Editor } from "./editor/dynamic-editor";
 import { useEffect, useState } from "react";
 
