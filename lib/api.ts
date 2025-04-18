@@ -32,8 +32,7 @@ export async function makeRequest(data: Record<string, unknown>) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "X-API-SECRET":
-        "841b346c2586f50686825c607b470b69140df3f666ebf520223b8d36f9b2c850",
+      "X-API-SECRET": process.env.NEXT_PUBLIC_API_SECRET,
     },
     body: JSON.stringify(data),
   });
@@ -51,8 +50,7 @@ export async function updateObject(objectId: string, properties: any) {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        "X-API-SECRET":
-          "841b346c2586f50686825c607b470b69140df3f666ebf520223b8d36f9b2c850",
+        "X-API-SECRET": process.env.NEXT_PUBLIC_API_SECRET,
       },
       body: JSON.stringify({
         properties,
