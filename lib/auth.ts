@@ -1,12 +1,8 @@
-import { NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 // import { fetchSingleRecord } from "./firebase";
 
-export const USER_SCOPES = [
-  "openid",
-  "profile",
-  "email"
-];
+export const USER_SCOPES = ["openid", "profile", "email"];
 
 export const authConfig: NextAuthOptions = {
   providers: [
@@ -63,7 +59,7 @@ export const authConfig: NextAuthOptions = {
       return session;
     },
     async redirect({ url, baseUrl }) {
-      return `${baseUrl}/dashboard`;
+      return `${baseUrl}/notes`;
     },
   },
   session: { strategy: "jwt" },
@@ -72,3 +68,5 @@ export const authConfig: NextAuthOptions = {
     error: "/", // Redirect here on authentication failure
   },
 };
+
+export const { handlers, signIn, signOut, auth } = NextAuth(authConfig);

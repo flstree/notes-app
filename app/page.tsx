@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Notes } from "@/app/notes/components/notes";
 import { fetchSections } from "@/lib/api";
+import { Loader3 } from "@/blocks/loader/loader3";
 
 export default function Home() {
   const [sections, setSections] = useState<any[]>([]);
@@ -9,7 +10,6 @@ export default function Home() {
   const [defaultCollapsed, setDefaultCollapsed] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Fetch sections from API
   const loadSections = async () => {
     try {
       setLoading(true);
@@ -22,7 +22,6 @@ export default function Home() {
     }
   };
 
-  // Read layout settings from cookies
   useEffect(() => {
     const getCookie = (name: string) => {
       const cookies = document.cookie.split("; ");
@@ -33,20 +32,34 @@ export default function Home() {
     setDefaultLayout(getCookie("react-resizable-panels:layout:mail"));
     setDefaultCollapsed(getCookie("react-resizable-panels:collapsed"));
 
-    loadSections(); // Load sections on mount
+    loadSections();
   }, []);
 
   return (
     <>
-      <div className="hidden flex-col md:flex">
+      {/* Desktop View */}
+      <div className="hidden md:flex md:flex-col">
         <Notes
           sections={sections}
           defaultLayout={defaultLayout}
           defaultCollapsed={defaultCollapsed}
           navCollapsedSize={4}
+          // isMobile={false}
         />
-        {loading && <p>Loading...</p>}
+        {loading && <Loader3 text="Obzeva notes" />}
       </div>
+
+      {/* Mobile View */}
+      {/* <div className="flex flex-col md:hidden">
+        <Notes
+          sections={sections}
+          defaultLayout={[100]}
+          defaultCollapsed={false}
+          navCollapsedSize={0}
+          // isMobile={true}
+        />
+        {loading && <Loader3 text="Obzeva notes" />}
+      </div> */}
     </>
   );
 }

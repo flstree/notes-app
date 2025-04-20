@@ -1,70 +1,43 @@
-"use client"; // this registers <Editor> as a Client Component
+"use client";
+
 import "@blocknote/core/fonts/inter.css";
-import { useCreateBlockNote } from "@blocknote/react";
+import { SuggestionMenuController, useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
 import { useEffect, useState } from "react";
-import { Block, PartialBlock } from "@blocknote/core";
-import { debounce } from "lodash";
-import { fetchObject, updateObject } from "@/lib/api";
+import { fetchObject } from "@/lib/api";
 import { Loader1 } from "@/blocks/loader/loader1";
 
 import "./styles.css";
 import { darkTheme, lightTheme } from "./theme";
+import { loadNote, saveToStorage } from "@/lib/editor";
+import { filterSuggestionItems, PartialBlock } from "@blocknote/core";
+import { getCustomSlashMenuItems, getEditorConfig } from "./editor-options";
 
-function saveWithIdleCallback(pageId: string, jsonBlocks: Block[]) {
-  if ("requestIdleCallback" in window) {
-    requestIdleCallback(() => updateObject(pageId, { blocks: jsonBlocks }));
-  } else {
-    setTimeout(() => updateObject(pageId, { blocks: jsonBlocks }), 1000); // Fallback for browsers that don't support requestIdleCallback
-  }
+interface EditorProps {
+  note: any | null;
+  editable: boolean;
 }
 
-const debouncedSave = debounce(saveWithIdleCallback, 1000); // Debounce with 1-second delay
-
-function saveToStorage(pageId: string, jsonBlocks: Block[]) {
-  // Debounced API call to save notes with idle execution
-  debouncedSave(pageId, jsonBlocks);
-}
-
-async function loadNote(note) {
-  if (!note) return undefined;
-
-  console.log(note);
-
-  const pages = note?.children?.filter((child) => child.type === "page") || [];
-
-  const blocks = pages.flatMap(
-    (page) => page?.properties?.blocks || []
-  ) as PartialBlock[];
-
-  return { pages, blocks };
-}
-
-// Our <Editor> component we can reuse later
-export default function Editor({ note = null, editable = false }) {
+export default function Editor({ note = null, editable = false }: EditorProps) {
   const [pages, setPages] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const editor = useCreateBlockNote({
-    animations: true,
-    sideMenuDetection: "editor",
-    trailingBlock: false,
-    initialContent: [
-      {
-        type: "paragraph",
-      },
-    ],
-    setIdAttribute: true,
-  });
+  const [initialContent, setInitialContent] = useState<
+    PartialBlock[] | undefined | "loading"
+  >("loading");
+  const editor = useCreateBlockNote(
+    initialContent === "loading" ? undefined : getEditorConfig(initialContent)
+  );
 
   const loadNoteFromApi = async (noteId) => {
+    setLoading(true);
     try {
-      setLoading(true);
       const { data } = await fetchObject(noteId);
       loadNote(data).then((content) => {
         setPages(content.pages);
-        if (editor && content?.blocks) {
-          editor.replaceBlocks(editor.document, content.blocks);
+        if (content?.blocks) {
+          setInitialContent(content?.blocks);
+          editor.replaceBlocks(editor.document, content?.blocks as any);
         }
       });
     } catch (error) {
@@ -74,15 +47,14 @@ export default function Editor({ note = null, editable = false }) {
     }
   };
 
-  // Load the note asynchronously
   useEffect(() => {
-    if (note) {
-      loadNoteFromApi(note.id);
-      //refetch sections data
+    const noteId = note?.id;
+    if (noteId) {
+      loadNoteFromApi(noteId);
     }
-  }, [note]);
+  }, [note?.id]);
 
-  if (loading) {
+  if (loading || !editor || initialContent === "loading") {
     return <Loader1 />;
   }
 
@@ -90,17 +62,25 @@ export default function Editor({ note = null, editable = false }) {
     <>
       <BlockNoteView
         data-theming-css-variables-demo
+        slashMenu={false}
         theme={{
           light: lightTheme,
           dark: darkTheme,
         }}
         editor={editor}
         editable={editable}
-        comments={true}
         onChange={() => {
           saveToStorage(pages[0]?.id, editor.document);
         }}
-      />
+      >
+        <SuggestionMenuController
+          triggerCharacter={"/"}
+          // Replaces the default Slash Menu items with our custom ones.
+          getItems={async (query) =>
+            filterSuggestionItems(getCustomSlashMenuItems(editor), query)
+          }
+        />
+      </BlockNoteView>
     </>
   );
 }

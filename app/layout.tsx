@@ -3,14 +3,17 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { cn } from "@/lib/utils";
+import { Providers } from "./providers";
+import { SignInButton } from "@/components/auth/SignInButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Notes - Obzeva",
-  description: "Free SaaS website blocks based on React with shadcn & Tailwind",
+  description: "A notes manager",
   keywords:
-    "tailwindcss, react, shadcn, design, webdesign, website, saas templates, saas website templates",
+    "tailwindcss, react, shadcn, design, webdesign, website, saas templates, saas website template, editor",
   authors: [{ name: "Abdullah Momoh", url: "https://obzeva.dev" }],
 };
 
@@ -20,7 +23,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      {...(process.env.NODE_ENV === "production"
+        ? { suppressHydrationWarning: true }
+        : {})}
+    >
       <head>
         <meta
           property="og:title"
@@ -35,16 +43,37 @@ export default function RootLayout({
           content="https://raw.githubusercontent.com/tommyjepsen/twblocks/main/public/hero4.png?raw=true"
         />
       </head>
-      <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ModeToggle />
-          {children}
-        </ThemeProvider>
+      <body
+        className={cn(
+          "min-h-screen bg-background antialiased",
+          inter.className
+        )}
+      >
+        <Providers>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            storageKey="obzeva-theme"
+          >
+            <div className="relative flex min-h-screen flex-col">
+              <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+                <div className="mx-4 flex h-14 items-center justify-between">
+                  <div className="flex items-center">
+                    <a href="/" className="font-semibold">
+                      Obzeva
+                    </a>
+                  </div>
+                  <div className="flex items-center">
+                    <SignInButton />
+                  </div>
+                </div>
+              </header>
+              <main className="flex-1">{children}</main>
+            </div>
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

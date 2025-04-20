@@ -11,25 +11,36 @@ Share,
 import { Separator } from "@/components/ui/separator";
 
 export default function ShareButton({ note }){
-    return <div className="ml-auto flex justify-end items-center bg-green-500">
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button variant="ghost" size="icon" disabled={!note}>
-          <Share className="h-4 w-4" />
-          <span className="">Share</span>
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent>Share</TooltipContent>
-    </Tooltip>
-    <Separator orientation="vertical" className="h-6 text-black" />
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button variant="ghost" size="icon" disabled={!note}>
-          <Link className="h-4 w-4" />
-          <span className="sr-only">CopyLink</span>
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent>Copy Link</TooltipContent>
-    </Tooltip>
-  </div>
+    return (
+      <div className="ml-auto flex justify-end items-center">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled={!note}
+              className="h-full w-full px-4 py-1 rounded-none bg-foreground text-background text-sm"
+            >
+              <span className="">Share</span>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Share</TooltipContent>
+        </Tooltip>
+        <Separator orientation="vertical" className="h-6 text-black" />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled={!note}
+              className="h-full w-full px-4 py-1 rounded-none bg-foreground text-background text-sm"
+            >
+              <Link className="h-5 w-5" />
+              <span className="sr-only">CopyLink</span>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Copy Link</TooltipContent>
+        </Tooltip>
+      </div>
+    );
 }

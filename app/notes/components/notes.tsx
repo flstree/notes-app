@@ -10,7 +10,6 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { NoteDisplay } from "@/app/notes/components/note-display";
@@ -20,6 +19,7 @@ import { useNote } from "@/app/notes/use-note";
 import { NoteDashboard } from "./note-dashboard";
 import { CreateSection } from "./create-section";
 import { CreateNote } from "./create-note";
+import { Login } from "./login";
 
 interface NotesProps {
   sections: any[];
@@ -32,7 +32,7 @@ interface NotesProps {
 
 export function Notes({
   sections,
-  defaultLayout = [20, 32, 48],
+  defaultLayout = [20, 30, 50],
   defaultCollapsed = false,
   navCollapsedSize,
   editorMode = false,
@@ -45,11 +45,10 @@ export function Notes({
   );
   const [filteredNotes, setFilteredNotes] = useState([]);
 
-
   const switchSection = (id: string) => {
     const section = sections.find((section) => section.id === id);
     setSelectedSection(section);
-  }
+  };
 
   useEffect(() => {
     const filtered =
@@ -59,8 +58,6 @@ export function Notes({
 
     setFilteredNotes(filtered);
   }, [selectedSection, sections]);
-
-  console.log(selectedSection);
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -76,9 +73,9 @@ export function Notes({
         <ResizablePanel
           defaultSize={defaultLayout[0]}
           collapsedSize={navCollapsedSize}
-          collapsible={false}
+          collapsible={true}
           minSize={15}
-          maxSize={16}
+          maxSize={20}
           onCollapse={() => {
             setIsCollapsed(true);
             document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
@@ -96,23 +93,23 @@ export function Notes({
               "min-w-[50px] transition-all duration-300 ease-in-out"
           )}
         >
-          <div
-            className={cn(
-              "flex h-[56px] items-center justify-between",
-              isCollapsed ? "h-[56px]" : "px-2"
-            )}
-          >
-            <span className={cn("ml-2", isCollapsed && "hidden")}>Obzeva</span>
-            {editorMode && <CreateSection onSave={reloadData} />}
-          </div>
-          <Separator />
+          {editorMode && (
+            <div
+              className={cn(
+                "flex h-[56px] items-center justify-between",
+                isCollapsed ? "h-[56px]" : "px-2"
+              )}
+            >
+              {<CreateSection onSave={reloadData} />}
+            </div>
+          )}
           <div className="bg-background/95 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <form>
               <div className="relative flex items-center">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Search"
-                  className="pl-8 border-none rounded-none outline-none"
+                  className="pl-8 rounded-none outline-none border-none ring-offset-0"
                 />
               </div>
             </form>
@@ -125,35 +122,36 @@ export function Notes({
             onSelectSection={(id) => switchSection(id)}
           />
         </ResizablePanel>
-        <ResizableHandle withHandle />
+        <ResizableHandle withHandle={false} />
         <ResizablePanel
           defaultSize={defaultLayout[1]}
           minSize={25}
-          maxSize={30}
+          maxSize={35}
         >
           <Tabs defaultValue="all">
-            <div className="flex items-center px-4 py-2">
-              <h1 className="text-xl font-bold">Notes</h1>
-              <div className="ml-auto">
-                {editorMode && (
-                  <CreateNote onSave={reloadData} section={selectedSection?.id} />
-                )}
+            {editorMode && (
+              <div className="flex items-center px-4 py-2">
+                <div className="ml-auto">
+                  <CreateNote
+                    onSave={reloadData}
+                    section={selectedSection?.id}
+                  />
+                </div>
               </div>
-            </div>
-            <Separator />
+            )}
             <TabsContent value="all" className="m-0 mt-4">
               <NoteList items={filteredNotes} />
             </TabsContent>
-            <TabsContent value="unread" className="m-0">
+            {/* <TabsContent value="unread" className="m-0">
               <NoteList items={filteredNotes.filter((item) => !item.read)} />
-            </TabsContent>
+            </TabsContent> */}
           </Tabs>
         </ResizablePanel>
-        <ResizableHandle withHandle />
+        <ResizableHandle withHandle={false} />
         <ResizablePanel
           defaultSize={defaultLayout[2]}
           minSize={30}
-          maxSize={31}
+          maxSize={100}
         >
           {editorMode ? (
             <NoteDashboard
@@ -168,6 +166,7 @@ export function Notes({
               note={
                 filteredNotes.find((item) => item.id === note.selected) || null
               }
+              sectionTitle={selectedSection?.properties?.title}
             />
           )}
         </ResizablePanel>

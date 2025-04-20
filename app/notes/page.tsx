@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import { Notes } from "@/app/notes/components/notes";
 import { fetchSections } from "@/lib/api";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { Loader3 } from "@/blocks/loader/loader3";
+import { Loader1 } from "@/blocks/loader/loader1";
 
 export default function DashboardClient() {
   const [sections, setSections] = useState<any[]>([]);
@@ -34,20 +37,22 @@ export default function DashboardClient() {
     setDefaultLayout(getCookie("react-resizable-panels:layout:mail"));
     setDefaultCollapsed(getCookie("react-resizable-panels:collapsed"));
 
-    loadSections(); // Load sections on mount
+    loadSections();
   }, []);
 
   return (
-    <div className="hidden flex-col md:flex">
-      <Notes
-        sections={sections}
-        defaultLayout={defaultLayout}
-        defaultCollapsed={defaultCollapsed}
-        navCollapsedSize={4}
-        editorMode={true}
-        reloadData={loadSections} // Pass function to refresh sections
-      />
-      {loading && <p>Loading...</p>}
-    </div>
+    <ProtectedRoute>
+      <div className="hidden flex-col md:flex">
+        <Notes
+          sections={sections}
+          defaultLayout={defaultLayout}
+          defaultCollapsed={defaultCollapsed}
+          navCollapsedSize={4}
+          editorMode={true}
+          reloadData={loadSections}
+        />
+        {loading && <Loader1 />}
+      </div>
+    </ProtectedRoute>
   );
 }

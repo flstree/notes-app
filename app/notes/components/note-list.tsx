@@ -20,8 +20,8 @@ export function NoteList({ items }: NoteListProps) {
           <button
             key={item.id}
             className={cn(
-              "flex flex-col items-start gap-2 rounded-lg border-none p-3 text-left text-sm transition-all bg-[#e9ecef] hover:bg-[#ffbf69]",
-              note.selected === item.id && "bg-[#ffbf69] text-white"
+              "flex flex-col items-start gap-2 rounded-lg border-none p-3 text-left text-sm transition-all bg-muted-foreground hover:bg-foreground hover:text-background",
+              note.selected === item.id && "bg-foreground text-background"
             )}
             onClick={() =>
               setNote({
@@ -44,8 +44,8 @@ export function NoteList({ items }: NoteListProps) {
               className={cn(
                 "line-clamp-2 text-xs",
                 note.selected === item.id
-                  ? "text-white"
-                  : "text-muted-foreground"
+                  ? "text-muted-foreground hover:text-background"
+                  : "text-foreground"
               )}
             >
               {item.properties.text?.substring(0, 300)}
@@ -54,8 +54,8 @@ export function NoteList({ items }: NoteListProps) {
               className={cn(
                 "mr-auto text-xs",
                 note.selected === item.id
-                  ? "text-white"
-                  : "text-muted-foreground"
+                  ? "text-muted-foreground"
+                  : "text-foreground"
               )}
             >
               {formatDistanceToNow(new Date(item.createdAt), {

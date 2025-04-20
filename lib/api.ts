@@ -84,3 +84,24 @@ export async function deleteObject(objectId: string) {
     console.error("Error deleting object:", error);
   }
 }
+
+// Uploads a file to tmpfiles.org and returns the URL to the uploaded file.
+export const uploadFile = async (file: File) => {
+  const body = new FormData();
+  body.append("file", file);
+
+  const response = await fetch(`${BASE_API_URL}/files/upload`, {
+    method: "POST",
+    body: body,
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to upload file");
+  }
+
+  return (await response.json()).data.url.replace(
+    `${BASE_API_URL}/files/`,
+    `${BASE_API_URL}/files/download/`
+  );
+};
+
