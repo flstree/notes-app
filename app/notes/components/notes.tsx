@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Search } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -17,9 +18,8 @@ import { NoteList } from "@/app/notes/components/note-list";
 import { Nav } from "@/app/notes/components/nav";
 import { useNote } from "@/app/notes/use-note";
 import { NoteDashboard } from "./note-dashboard";
-import { CreateSection } from "./create-section";
-import { CreateNote } from "./create-note";
-import { Login } from "./login";
+import { useNotesStore } from "@/lib/store/notes";
+import { useUserStore } from "@/lib/store/user";
 
 interface NotesProps {
   sections: any[];
@@ -31,33 +31,28 @@ interface NotesProps {
 }
 
 export function Notes({
-  sections,
   defaultLayout = [20, 30, 50],
   defaultCollapsed = false,
   navCollapsedSize,
   editorMode = false,
   reloadData,
 }: NotesProps) {
+  const { isAuthenticated } = useUserStore();
+  const { sections, notes, currentSection, setCurrentSection, setNotes } =
+    useNotesStore();
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
   const [note] = useNote();
-  const [selectedSection, setSelectedSection] = React.useState<any | null>(
-    sections.length > 0 ? sections[0] : null
-  );
-  const [filteredNotes, setFilteredNotes] = useState([]);
 
-  const switchSection = (id: string) => {
-    const section = sections.find((section) => section.id === id);
-    setSelectedSection(section);
-  };
+  // Use session to determine if user is logged in
+  const isEditorMode = isAuthenticated ? true : editorMode;
 
   useEffect(() => {
-    const filtered =
-      sections
-        ?.find((section) => section.id === selectedSection?.id)
-        ?.children?.filter((child) => child.type === "note") || [];
+    const filtered = (sections
+      ?.find((section) => section.id === currentSection?.id)
+      ?.children?.filter((child) => child.type === "note") || []) as any;
 
-    setFilteredNotes(filtered);
-  }, [selectedSection, sections]);
+    setNotes(filtered);
+  }, [currentSection]);
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -93,16 +88,6 @@ export function Notes({
               "min-w-[50px] transition-all duration-300 ease-in-out"
           )}
         >
-          {editorMode && (
-            <div
-              className={cn(
-                "flex h-[56px] items-center justify-between",
-                isCollapsed ? "h-[56px]" : "px-2"
-              )}
-            >
-              {<CreateSection onSave={reloadData} />}
-            </div>
-          )}
           <div className="bg-background/95 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <form>
               <div className="relative flex items-center">
@@ -114,13 +99,7 @@ export function Notes({
               </div>
             </form>
           </div>
-          <Nav
-            isCollapsed={isCollapsed}
-            editorMode={editorMode}
-            links={sections as any}
-            onDelete={reloadData}
-            onSelectSection={(id) => switchSection(id)}
-          />
+          <Nav isCollapsed={isCollapsed} />
         </ResizablePanel>
         <ResizableHandle withHandle={false} />
         <ResizablePanel
@@ -129,18 +108,8 @@ export function Notes({
           maxSize={35}
         >
           <Tabs defaultValue="all">
-            {editorMode && (
-              <div className="flex items-center px-4 py-2">
-                <div className="ml-auto">
-                  <CreateNote
-                    onSave={reloadData}
-                    section={selectedSection?.id}
-                  />
-                </div>
-              </div>
-            )}
             <TabsContent value="all" className="m-0 mt-4">
-              <NoteList items={filteredNotes} />
+              <NoteList items={notes} />
             </TabsContent>
             {/* <TabsContent value="unread" className="m-0">
               <NoteList items={filteredNotes.filter((item) => !item.read)} />
@@ -153,20 +122,14 @@ export function Notes({
           minSize={30}
           maxSize={100}
         >
-          {editorMode ? (
+          {isEditorMode ? (
             <NoteDashboard
-              note={
-                filteredNotes.find((item) => item.id === note.selected) || null
-              }
-              sectionTitle={selectedSection?.properties?.title}
-              onDelete={reloadData}
+              note={notes.find((item) => item.id === note.selected) || null}
             />
           ) : (
             <NoteDisplay
-              note={
-                filteredNotes.find((item) => item.id === note.selected) || null
-              }
-              sectionTitle={selectedSection?.properties?.title}
+              note={notes.find((item) => item.id === note.selected) || null}
+              sectionTitle={currentSection?.properties?.title}
             />
           )}
         </ResizablePanel>

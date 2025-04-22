@@ -34,32 +34,32 @@ import "@blocknote/core/fonts/inter.css";
 import "@blocknote/mantine/style.css";
 import { Editor } from "./editor/dynamic-editor";
 import { useEffect, useState } from "react";
-import { deleteObject } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import ShareButton from "./share-button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useNotesStore } from "@/lib/store/notes";
 
 interface NoteDashboardProps {
   note: any | null;
-  sectionTitle: string | null;
-  onDelete: () => void;
 }
 
-export function NoteDashboard({
-  note,
-  sectionTitle,
-  onDelete,
-}: NoteDashboardProps) {
+export function NoteDashboard({ note }: NoteDashboardProps) {
   const router = useRouter();
   // Track the currently displayed note ID
-  const [currentNoteId, setCurrentNoteId] = useState(note?.id);
+  const {
+    currentNote,
+    currentSection,
+    setCurrentNote,
+    fetchSections,
+    deleteNote,
+  } = useNotesStore();
 
-  const deleteNote = async (noteId) => {
+  const removeNote = async (noteId) => {
     if (!noteId) return;
 
-    await deleteObject(noteId);
-
-    onDelete();
+    await deleteNote(noteId);
+    await fetchSections();
+    setCurrentNote(null);
   };
 
   const maximizeNote = (noteId: string) => {
@@ -67,10 +67,10 @@ export function NoteDashboard({
   };
 
   useEffect(() => {
-    if (note?.id !== currentNoteId) {
-      setCurrentNoteId(note?.id);
+    if (note?.id !== currentNote?.id) {
+      setCurrentNote(note);
     }
-  }, [note?.id, note?.children, currentNoteId]);
+  }, [note?.id, note?.children, currentNote]);
 
   return (
     <div className="flex h-screen flex-col">
@@ -89,7 +89,9 @@ export function NoteDashboard({
             <Tooltip>
               <div className="flex flex-col">
                 <p className="text-sm text-muted-foreground">
-                  <span className="mr-1">{sectionTitle}</span>
+                  <span className="mr-1">
+                    {currentSection?.properties?.title}
+                  </span>
                   {">"}
                   <span className="ml-1">{note?.properties?.subject}</span>
                 </p>
@@ -184,8 +186,7 @@ export function NoteDashboard({
       {note ? (
         <ScrollArea className="flex flex-1 flex-col">
           <div className="flex-1 whitespace-pre-wrap text-sm rounded-none">
-            <Editor key={currentNoteId} note={note} editable={true} />
-            {/* <ExcalidrawView /> */}
+            <Editor key={note?.id} note={note} editable={true} />
           </div>
         </ScrollArea>
       ) : (

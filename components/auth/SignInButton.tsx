@@ -2,14 +2,22 @@
 
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import { useUserStore } from "@/lib/store/user";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export function SignInButton() {
-  const { data: session } = useSession();
+  const { user, isAuthenticated } = useUserStore();
 
-  if (session && session?.user) {
+  if (isAuthenticated) {
     return (
       <div className="flex gap-2 items-center">
-        <p className="text-sm text-foreground/60">{session.user.email}</p>
+        <div className="flex items-center gap-2">
+          <p>Hi, {user?.firstName}</p>
+          <Avatar className="flex">
+            <AvatarImage src={user?.image} />
+            <AvatarFallback>{user?.shortName}</AvatarFallback>
+          </Avatar>
+        </div>
         <Button
           variant="outline"
           className=""

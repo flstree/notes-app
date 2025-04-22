@@ -28,7 +28,7 @@ export const lightTheme = {
       background: "hsl(var(--muted-foreground))",
     },
     border: "hsl(var(--muted-foreground))",
-    sideMenu: "hsl(var(--background))",
+    sideMenu: "hsl(var(--foreground))",
     shadow: "none",
     highlights: lightDefaultTheme.colors!.highlights,
   },
@@ -44,7 +44,7 @@ export const darkTheme = {
     ...lightTheme.colors,
     editor: {
       text: "hsl(var(--foreground))",
-      background: "hsl(var(--foreground))",
+      background: "hsl(var(--muted-foreground))",
     },
     sideMenu: "hsl(var(--foreground))",
     shadow: "none",

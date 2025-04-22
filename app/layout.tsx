@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ModeToggle } from "@/components/ui/mode-toggle";
 import { cn } from "@/lib/utils";
 import { Providers } from "./providers";
 import { SignInButton } from "@/components/auth/SignInButton";
+import { CreateDropdown } from "@/app/notes/components/create-dropdown";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -45,34 +46,37 @@ export default function RootLayout({
       </head>
       <body
         className={cn(
-          "min-h-screen bg-background antialiased",
+          "min-h-screen bg-note-background antialiased",
           inter.className
         )}
       >
         <Providers>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-            storageKey="obzeva-theme"
-          >
-            <div className="relative flex min-h-screen flex-col">
-              <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <div className="mx-4 flex h-14 items-center justify-between">
-                  <div className="flex items-center">
-                    <a href="/" className="font-semibold">
-                      Obzeva
-                    </a>
+          <AuthProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+              storageKey="obzeva-theme"
+            >
+              <div className="relative flex min-h-screen flex-col">
+                <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+                  <div className="mx-4 flex h-14 items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <a href="/" className="font-semibold">
+                        Obzeva
+                      </a>
+                      <CreateDropdown />
+                    </div>
+                    <div className="flex items-center">
+                      <SignInButton />
+                    </div>
                   </div>
-                  <div className="flex items-center">
-                    <SignInButton />
-                  </div>
-                </div>
-              </header>
-              <main className="flex-1">{children}</main>
-            </div>
-          </ThemeProvider>
+                </header>
+                <main className="flex-1">{children}</main>
+              </div>
+            </ThemeProvider>
+          </AuthProvider>
         </Providers>
       </body>
     </html>
