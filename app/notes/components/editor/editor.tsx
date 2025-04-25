@@ -29,30 +29,29 @@ export default function Editor({ note = null, editable = false }: EditorProps) {
     initialContent === "loading" ? undefined : getEditorConfig(initialContent)
   );
 
-  const loadNoteFromApi = async (noteId) => {
-    setLoading(true);
-    try {
-      const { data } = await fetchObject(noteId);
-      loadNote(data).then((content) => {
-        setPages(content.pages);
-        if (content?.blocks) {
-          setInitialContent(content?.blocks);
-          editor.replaceBlocks(editor.document, content?.blocks as any);
-        }
-      });
-    } catch (error) {
-      console.error("Error fetching sections:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     const noteId = note?.id;
+    const loadNoteFromApi = async (noteId) => {
+      setLoading(true);
+      try {
+        const { data } = await fetchObject(noteId);
+        loadNote(data).then((content) => {
+          setPages(content.pages);
+          if (content?.blocks) {
+            setInitialContent(content?.blocks);
+            editor.replaceBlocks(editor.document, content?.blocks as any);
+          }
+        });
+      } catch (error) {
+        console.error("Error fetching sections:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
     if (noteId) {
       loadNoteFromApi(noteId);
     }
-  }, [note?.id]);
+  }, [note?.id, editor]);
 
   if (loading || !editor || initialContent === "loading") {
     return <Loader1 />;

@@ -26,7 +26,7 @@ export function CreateDropdown() {
 
   useEffect(() => {
     fetchSections();
-  }, []);
+  }, [fetchSections]);
 
   if (!isAuthenticated) {
     return <></>;

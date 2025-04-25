@@ -70,7 +70,7 @@ export function NoteDashboard({ note }: NoteDashboardProps) {
     if (note?.id !== currentNote?.id) {
       setCurrentNote(note);
     }
-  }, [note?.id, note?.children, currentNote]);
+  }, [note, currentNote, setCurrentNote]);
 
   return (
     <div className="flex h-screen flex-col">

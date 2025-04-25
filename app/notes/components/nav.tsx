@@ -45,7 +45,7 @@ export function Nav({ isCollapsed }: NavProps) {
     if (!currentSection) {
       setCurrentSection(sections[0]);
     }
-  }, [currentSection]);
+  }, [sections, currentSection, setCurrentSection]);
 
   return (
     <div

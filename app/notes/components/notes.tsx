@@ -52,7 +52,7 @@ export function Notes({
       ?.children?.filter((child) => child.type === "note") || []) as any;
 
     setNotes(filtered);
-  }, [currentSection]);
+  }, [sections, setNotes, currentSection]);
 
   return (
     <TooltipProvider delayDuration={0}>
